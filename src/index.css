@@ -16,8 +16,18 @@
     --primary-color: #6461ff;
     --secondary-color: #dbe9f6;
     --primary-bg: #838383;
+    --secondary-bg: #d9d9d9;
     --hero-bg: #fff8e1;
 
     --white: #fff;
-    --black: #0000;
+    --black: #000000;
+}
+
+a {
+    text-decoration: none;
+}
+
+.logo-container h1 {
+    color: var(--primary-color);
+    font-weight: 800;
 }
