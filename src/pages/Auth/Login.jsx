@@ -3,11 +3,12 @@ import Logo from '../../components/Logo/Logo';
 import styles from './Auth.module.css';
 
 import loginImg from '../../assets/login.png';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import Input from './AuthInput';
 
 function Login() {
-    const emailRef = useRef();
-    const passwordRef = useRef();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const [loginError, setLoginError] = useState({
         hasError: false,
@@ -17,9 +18,6 @@ function Login() {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
-
         // TODO: Add validation
 
         const userData = {
@@ -27,6 +25,13 @@ function Login() {
             password,
         };
         console.log(userData);
+
+        if (email.length === 0) {
+            setLoginError({
+                hasError: true,
+                errorMessage: 'E-Posta Adresinizi Girin',
+            });
+        }
         // TODO: Login with credentials
     };
 
@@ -39,24 +44,23 @@ function Login() {
                         <span>Smooth</span> bir giriş yapın.
                     </h3>
                     <form onSubmit={onSubmit} className={styles['auth-form']}>
-                        <div className={styles['input-group']}>
-                            <label htmlFor='email'>E-Posta Adresi</label>
-                            <input
-                                type='text'
-                                name='email'
-                                id='email'
-                                ref={emailRef}
-                            />
-                        </div>
-                        <div className={styles['input-group']}>
-                            <label htmlFor='password'>Şifre</label>
-                            <input
-                                type='password'
-                                name='password'
-                                id='password'
-                                ref={passwordRef}
-                            />
-                        </div>
+                        <Input
+                            value={email}
+                            onChange={setEmail}
+                            type='email'
+                            id='email'
+                            name='email'
+                            label='E-Posta Adresi'
+                        />
+                        <Input
+                            value={password}
+                            onChange={setPassword}
+                            type='password'
+                            id='password'
+                            name='password'
+                            label='Şifre'
+                        />
+
                         {loginError.hasError && (
                             <p className={styles['error-message']}>
                                 {loginError.errorMessage}

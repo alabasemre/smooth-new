@@ -1,27 +1,14 @@
-import styles from './home.module.css';
+import styles from './Home.module.css';
 import heroImg from '../../assets/hero.png';
-import { Link } from 'react-router-dom';
+
 import Logo from '../../components/Logo/Logo';
+import AuthButtons from './AuthButtons';
 function Home() {
     return (
         <main className={styles['centered-container']}>
             <div className={styles.topbar}>
                 <Logo />
-                <div className={styles.buttons}>
-                    <Link
-                        to='login'
-                        className={`${styles['button']} ${styles['button-reversed']}`}
-                    >
-                        Giriş Yap
-                    </Link>
-
-                    <Link
-                        to={'/register'}
-                        className={`${styles['button']} ${styles['button-primary']}`}
-                    >
-                        Üye Ol
-                    </Link>
-                </div>
+                <AuthButtons />
             </div>
 
             <section className={styles['hero']}>

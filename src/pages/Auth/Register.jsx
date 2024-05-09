@@ -1,33 +1,29 @@
 import { Link } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
 import styles from './Auth.module.css';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import Input from './AuthInput';
 
 const defaultState = {
     email: { hasError: false, errorMessage: '' },
     password: { hasError: false, errorMessage: '' },
-    passwordConfirm: { hasError: false, errorMessage: '' },
+    checkPassword: { hasError: false, errorMessage: '' },
 };
 
 function Register() {
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const passwordConfirmRef = useRef();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [checkPassword, setCheckPassword] = useState('');
 
     const [formState, setFormState] = useState({
         email: { hasError: false, errorMessage: '' },
         password: { hasError: false, errorMessage: '' },
-        passwordConfirm: { hasError: false, errorMessage: '' },
+        checkPassword: { hasError: false, errorMessage: '' },
     });
 
     const onSubmit = (e) => {
         e.preventDefault();
-
         setFormState(defaultState);
-
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
-        const passwordConfirm = passwordConfirmRef.current.value;
 
         if (password.trim().length == 0) {
             setFormState((state) => {
@@ -41,11 +37,11 @@ function Register() {
             });
         }
 
-        if (password.trim() !== passwordConfirm.trim()) {
+        if (password.trim() !== checkPassword.trim()) {
             setFormState((state) => {
                 return {
                     ...state,
-                    passwordConfirm: {
+                    checkPassword: {
                         hasError: true,
                         errorMessage: 'Şifreler uyuşmuyor',
                     },
@@ -56,7 +52,7 @@ function Register() {
         const userData = {
             email,
             password,
-            passwordConfirm,
+            checkPassword,
         };
 
         console.log(userData);
@@ -71,48 +67,38 @@ function Register() {
                         Hesap Oluşturun
                     </h3>
                     <form onSubmit={onSubmit} className={styles['auth-form']}>
-                        <div className={styles['input-group']}>
-                            <label htmlFor='email'>E-Posta Adresi</label>
-                            <input
-                                type='text'
-                                name='email'
-                                id='email'
-                                ref={emailRef}
-                            />
-                            {formState?.email.hasError && (
-                                <p className={styles['error-message']}>
-                                    {formState.email.errorMessage}
-                                </p>
-                            )}
-                        </div>
-                        <div className={styles['input-group']}>
-                            <label htmlFor='password'>Şifre</label>
-                            <input
-                                type='password'
-                                name='password'
-                                id='password'
-                                ref={passwordRef}
-                            />
-                            {formState?.password.hasError && (
-                                <p className={styles['error-message']}>
-                                    {formState.password.errorMessage}
-                                </p>
-                            )}
-                        </div>
-                        <div className={styles['input-group']}>
-                            <label htmlFor='password-confirm'>Şifre Onay</label>
-                            <input
-                                type='password'
-                                name='pass-confirm'
-                                id='pass-confirm'
-                                ref={passwordConfirmRef}
-                            />
-                            {formState?.passwordConfirm.hasError && (
-                                <p className={styles['error-message']}>
-                                    {formState.passwordConfirm.errorMessage}
-                                </p>
-                            )}
-                        </div>
+                        <Input
+                            value={email}
+                            onChange={setEmail}
+                            type='text'
+                            id='email'
+                            name='email'
+                            label='E-Posta Adresi'
+                            hasError={formState?.email.hasError}
+                            errorMessage={formState.email.errorMessage}
+                        />
+
+                        <Input
+                            value={password}
+                            onChange={setPassword}
+                            type='password'
+                            id='password'
+                            name='password'
+                            label='Şifre'
+                            hasError={formState?.password.hasError}
+                            errorMessage={formState.password.errorMessage}
+                        />
+
+                        <Input
+                            value={checkPassword}
+                            onChange={setCheckPassword}
+                            type='password'
+                            id='checkPassword'
+                            name='checkPassword'
+                            label='Şifre'
+                            hasError={formState?.checkPassword.hasError}
+                            errorMessage={formState.checkPassword.errorMessage}
+                        />
 
                         <button
                             className={`${styles['button']} ${styles['button-register']}`}
