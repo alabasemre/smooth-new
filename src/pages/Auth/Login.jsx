@@ -47,7 +47,7 @@ function Login() {
                         <Input
                             value={email}
                             onChange={setEmail}
-                            type='email'
+                            type='text'
                             id='email'
                             name='email'
                             label='E-Posta Adresi'

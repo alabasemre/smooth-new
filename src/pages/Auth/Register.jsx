@@ -95,7 +95,7 @@ function Register() {
                             type='password'
                             id='checkPassword'
                             name='checkPassword'
-                            label='Şifre'
+                            label='Şifrenizi Onaylayın'
                             hasError={formState?.checkPassword.hasError}
                             errorMessage={formState.checkPassword.errorMessage}
                         />
