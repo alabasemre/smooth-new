@@ -1,0 +1,36 @@
+.form-container {
+    width: 600px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.project-description {
+    height: 200px;
+    resize: none;
+}
+
+.btn-add {
+    background-color: var(--button-bg);
+    border: none;
+    align-self: flex-end;
+    padding: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}

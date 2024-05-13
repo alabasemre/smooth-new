@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Modal from '../../components/Modal/Modal';
 import styles from './Projects.module.css';
+import NewProjectForm from '../../components/Forms/NewProjectForm';
 
 const mock = [
     {
@@ -29,14 +32,28 @@ const mock = [
 ];
 
 function Projects() {
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const modalToggle = () => {
+        setModalOpen((state) => !state);
+    };
+
     return (
         <section className={styles['projects']}>
             <div className={styles['page-header']}>
                 <h1>Proje Listesi</h1>
-                <button className={styles['new-project-button']}>
+                <button
+                    className={styles['new-project-button']}
+                    onClick={modalToggle}
+                >
                     Yeni Proje Oluştur
                 </button>
             </div>
+            {isModalOpen && (
+                <Modal setIsOpen={modalToggle} isOpen={isModalOpen}>
+                    <NewProjectForm></NewProjectForm>
+                </Modal>
+            )}
 
             <div className={styles['projects-container']}>
                 {mock.map((project) => (
@@ -61,7 +78,6 @@ function Projects() {
                                 <button
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        console.log('first');
                                     }}
                                     className={styles['badge-container']}
                                     style={{
