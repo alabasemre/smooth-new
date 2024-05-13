@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import styles from './Auth.module.css';
+import styles from './Input.module.css';
 
 function Input({
     id,

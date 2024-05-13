@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
 import styles from './Auth.module.css';
 import { useState } from 'react';
-import Input from './AuthInput';
+import Input from '../../components/Input/Input';
 
 const defaultState = {
     email: { hasError: false, errorMessage: '' },

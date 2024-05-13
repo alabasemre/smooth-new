@@ -19,15 +19,29 @@
     --secondary-bg: #d9d9d9;
     --hero-bg: #fff8e1;
 
+    --button-bg: #31cb49;
+
     --white: #fff;
     --black: #000000;
 }
 
+body {
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+button {
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
 a {
     text-decoration: none;
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .logo-container h1 {
     color: var(--primary-color);
     font-weight: 800;
+}
+
+.active {
+    background-color: var(--secondary-bg);
 }

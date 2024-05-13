@@ -1,0 +1,27 @@
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid var(--primary-bg);
+    border-radius: 6px;
+    padding: 8px;
+}
+
+.input-group label {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.input-group :where(input[type='text'], input[type='password']) {
+    font-family: Inter, sans-serif;
+    font-weight: 600;
+    border: none;
+    padding: 4px 0;
+    outline: none;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    font-size: 12px;
+}

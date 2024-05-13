@@ -1,0 +1,64 @@
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--secondary-color);
+    transition: width 0.15s ease-out;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.toggle {
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    justify-self: flex-end;
+    align-self: flex-end;
+}
+
+.toggle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.profile-img {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.profile-img img {
+    width: 50px;
+    border-radius: 13px;
+}
+
+.nav-container {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    gap: 2px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--black);
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.nav-link:hover {
+    background-color: var(--secondary-bg);
+}
+
+.nav-link span {
+    font-size: 14px;
+    font-weight: 500;
+}

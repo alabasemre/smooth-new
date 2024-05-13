@@ -4,7 +4,7 @@ import styles from './Auth.module.css';
 
 import loginImg from '../../assets/login.png';
 import { useState } from 'react';
-import Input from './AuthInput';
+import Input from '../../components/Input/Input';
 
 function Login() {
     const [email, setEmail] = useState('');
