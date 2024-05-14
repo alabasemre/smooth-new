@@ -42,9 +42,9 @@ function Projects() {
     };
 
     return (
-        <section className={styles['projects']}>
+        <section className='nested-outer-container'>
             <NestedSidebar data={mock} path={'project'}>
-                <div className={styles['page-header']}>
+                <div className='nested-page-header'>
                     <h1>Proje Listesi</h1>
                     <button
                         className={styles['new-project-button']}

@@ -13,7 +13,7 @@ function NestedSidebar({ data, path, children }) {
                     <li key={data.id} className={styles['link-container']}>
                         <Link to={`${generatePath}${data.id}`}>
                             <p className={styles['link-name']}>{data.name}</p>
-                        </Link>{' '}
+                        </Link>
                     </li>
                 ))}
             </ul>

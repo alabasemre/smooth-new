@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Projects from './pages/Projects/Projects';
 import Teams from './pages/Teams/Teams';
 import Project from './pages/Project/Project';
+import Team from './pages/Team/Team';
 
 const router = createBrowserRouter([
     {
@@ -43,8 +44,14 @@ const router = createBrowserRouter([
                     {
                         path: 'teams',
                         element: <Teams />,
-                        children: [{ path: ':teamId', element: <Teams /> }],
+                        children: [
+                            {
+                                path: ':teamId',
+                                element: <Team />,
+                            },
+                        ],
                     },
+
                     {
                         path: 'project/:projectId',
                         element: <Project />,
