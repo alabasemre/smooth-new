@@ -12,7 +12,7 @@ const teams = [
     { id: 2, name: 'DC' },
 ];
 
-function NewProjectForm() {
+function NewProjectForm({ toggleModal }) {
     const [projectName, setProjectName] = useState('');
     const [teamForProject, setTeamForProject] = useState(null);
     const [isTeamDropdownOpen, setTeamDropdownOpen] = useState();
@@ -29,11 +29,11 @@ function NewProjectForm() {
     return (
         <div className={styles['form-container']}>
             <div className={styles['header']}>
-                <p>
+                <div>
                     <Smooth /> Bir Proje Ekleyin
-                </p>
+                </div>
                 <span className={styles['header-button']}>
-                    <IoCloseOutline />
+                    <IoCloseOutline size={20} onClick={toggleModal} />
                 </span>
             </div>
 

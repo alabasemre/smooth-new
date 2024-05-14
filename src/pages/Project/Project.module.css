@@ -1,0 +1,21 @@
+.project-outer-container {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    background-color: var(--white);
+    padding: 30px 0;
+    min-height: 600px;
+    overflow-y: auto;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.page-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+}

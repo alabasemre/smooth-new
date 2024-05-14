@@ -2,13 +2,15 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    height: 100%;
+    overflow: auto;
     top: 0;
     left: 0;
     background-color: var(--secondary-color);
     transition: width 0.15s ease-out;
     padding: 10px;
     border-radius: 10px;
+    height: 100%;
+    min-height: 600px;
 }
 
 .toggle {
@@ -34,8 +36,11 @@
 }
 
 .profile-img img {
-    width: 50px;
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
     border-radius: 13px;
+    max-width: 50px;
 }
 
 .nav-container {

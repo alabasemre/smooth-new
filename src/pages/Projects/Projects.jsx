@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
-import styles from './Projects.module.css';
 import NewProjectForm from '../../components/Forms/NewProjectForm';
+import NestedSidebar from '../../components/NestedSidebar/NestedSidebar';
+
+import styles from './Projects.module.css';
 
 const mock = [
     {
         id: 1,
         name: 'Lorem ipsum dolor',
         memberCount: 30,
+        team: 'Marvel',
         isActive: true,
         sprintCount: 3,
         startDate: '2015-01-01',
@@ -22,6 +24,7 @@ const mock = [
         name: 'Amet Consectetur Adipisicing',
         memberCount: 36,
         isActive: false,
+        team: 'DC',
         sprintCount: 0,
         startDate: '2015-01-01',
         owner: false,
@@ -40,58 +43,24 @@ function Projects() {
 
     return (
         <section className={styles['projects']}>
-            <div className={styles['page-header']}>
-                <h1>Proje Listesi</h1>
-                <button
-                    className={styles['new-project-button']}
-                    onClick={modalToggle}
-                >
-                    Yeni Proje Oluştur
-                </button>
-            </div>
-            {isModalOpen && (
-                <Modal setIsOpen={modalToggle} isOpen={isModalOpen}>
-                    <NewProjectForm></NewProjectForm>
-                </Modal>
-            )}
-
-            <div className={styles['projects-container']}>
-                {mock.map((project) => (
-                    <Link key={project.id} to={`project/${project.id}`}>
-                        <div className={styles['project-container']}>
-                            <p className={styles['project-name']}>
-                                {project.name}
-                            </p>
-                            <div className={styles['project-info']}>
-                                <p className={styles['badge-container']}>
-                                    {project.isActive ? 'Aktif' : 'Pasif'}
-                                </p>
-                                <p className={styles['badge-container']}>
-                                    {project.memberCount} Üye
-                                </p>
-                                <p className={styles['badge-container']}>
-                                    {project.sprintCount} Aktif Sprint
-                                </p>
-                                <p className={styles['badge-container']}>
-                                    {project.issueCount} Aktif Sorun
-                                </p>
-                                <button
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                    }}
-                                    className={styles['badge-container']}
-                                    style={{
-                                        background: 'red',
-                                        border: 'none',
-                                    }}
-                                >
-                                    Ayarlar
-                                </button>
-                            </div>
-                        </div>
-                    </Link>
-                ))}
-            </div>
+            <NestedSidebar data={mock} path={'project'}>
+                <div className={styles['page-header']}>
+                    <h1>Proje Listesi</h1>
+                    <button
+                        className={styles['new-project-button']}
+                        onClick={modalToggle}
+                    >
+                        Yeni Proje
+                    </button>
+                </div>
+                {isModalOpen && (
+                    <Modal setIsOpen={modalToggle} isOpen={isModalOpen}>
+                        <NewProjectForm
+                            toggleModal={modalToggle}
+                        ></NewProjectForm>
+                    </Modal>
+                )}
+            </NestedSidebar>
         </section>
     );
 }

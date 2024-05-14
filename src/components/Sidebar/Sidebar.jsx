@@ -16,7 +16,7 @@ function Sidebar() {
     return (
         <div
             className={styles['sidebar-container']}
-            style={{ width: !open ? '70px' : '220px' }}
+            style={{ width: !open ? '72px' : '220px' }}
         >
             <button
                 className={styles['toggle']}

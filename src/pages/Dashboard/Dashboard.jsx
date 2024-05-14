@@ -1,6 +1,8 @@
 import Sidebar from '../../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 
+import styles from './Dashboard.module.css';
+
 function Dashboard() {
     return (
         <div
@@ -8,11 +10,12 @@ function Dashboard() {
                 display: 'flex',
                 height: '100vh',
                 overflow: 'hidden',
-                padding: 10,
-                gap: 10,
             }}
         >
-            <Sidebar />
+            <div className={styles['sidebar-container']}>
+                <Sidebar />
+            </div>
+
             <div
                 style={{
                     display: 'flex',
@@ -20,7 +23,7 @@ function Dashboard() {
                     overflow: 'auto',
                     flexDirection: 'column',
                     flex: 1,
-                    padding: 10,
+                    backgroundColor: '#FCFCFC',
                 }}
             >
                 <Outlet />

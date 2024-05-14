@@ -8,6 +8,21 @@
     margin-bottom: 15px;
 }
 
+.header-button {
+    cursor: pointer;
+    padding: 3px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+}
+
+.header-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 .form {
     display: flex;
     flex-direction: column;

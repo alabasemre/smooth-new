@@ -7,7 +7,11 @@ function Modal({ isOpen, setIsOpen, children }) {
     const modalRef = useRef();
 
     useEffect(() => {
-        modalRef.current.showModal();
+        if (isOpen) {
+            modalRef.current.showModal();
+        } else {
+            modalRef.current.close();
+        }
     }, []);
 
     const onClose = () => {

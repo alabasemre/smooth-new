@@ -20,7 +20,7 @@ function Dropdown({
         return selectedItems ? (
             selectedItems?.map((item) => (
                 <div key={item.id} className={styles['toggle-selected-item']}>
-                    {item.name}{' '}
+                    {item.name}
                     <IoIosClose
                         size={20}
                         onClick={(e) => {

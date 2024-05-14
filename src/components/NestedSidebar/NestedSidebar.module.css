@@ -1,0 +1,59 @@
+.navigations {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background-color: var(--secondary-bg);
+    border-radius: 0 10px 10px 0;
+}
+
+.links-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.link-container {
+    flex: 1;
+    gap: 10px;
+    padding: 4px 8px;
+    color: var(--black);
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.link-container a {
+    color: var(--black);
+}
+
+.link-container:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.link-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+
+.link-info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.badge-container {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    min-width: 50px;
+    text-align: center;
+    font-weight: 500;
+    text-overflow: clip;
+    white-space: nowrap;
+}

@@ -2,6 +2,7 @@
     background-color: var(--secondary-bg);
     padding: 4px 10px;
     border-bottom: 1px solid var(--button-bg);
+    cursor: pointer;
 }
 
 .toggle-selected {
