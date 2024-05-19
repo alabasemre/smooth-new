@@ -1,0 +1,102 @@
+/** KANBAN COLUMN CONTAINER **/
+.kanban-container {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/** KANBAN COLUMN CSS**/
+.column-container {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+
+    width: 25%;
+    border-radius: 6px;
+
+    background-color: var(--kanban-col-bg);
+
+    min-height: 300px;
+    max-height: 800px;
+    min-width: 250px;
+}
+
+.column-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 8px 0 16px 0;
+}
+
+.column-header img {
+    width: 30px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+}
+
+.column-title {
+    font-size: 16px;
+    font-weight: 400;
+    font-weight: 600;
+}
+
+.task-list {
+    transition: background-color 0.2s ease;
+    flex-grow: 1;
+}
+
+.column-dragover {
+    background-color: transparent;
+}
+
+/**  TASK CARD STYLES **/
+.task-container {
+    padding: 10px;
+    margin: 0 10px;
+    border-radius: 8px;
+    background: var(--white);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    user-select: none;
+    margin-bottom: 16px;
+}
+
+.task-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.task-content {
+    font-size: 12px;
+    color: var(--primary-bg);
+    padding: 0 4px;
+    font-weight: 300;
+}
+
+.task-dragging {
+    background-color: lightgreen;
+}
+
+.task-badges {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+}
+
+.assignee-img {
+    height: 32px;
+    width: 32px;
+    object-fit: fill;
+    margin-right: -9px;
+    border: 2px solid var(--white);
+    border-radius: 50px;
+}
+
+/* .task-handle {
+    width: 20px;
+    height: 20px;
+    background-color: orange;
+    border-radius: 4px;
+    margin-right: 8px;
+} */

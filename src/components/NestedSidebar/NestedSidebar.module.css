@@ -5,6 +5,9 @@
     min-width: 300px;
     background-color: var(--secondary-bg);
     border-radius: 0 10px 10px 0;
+    position: sticky;
+    top: 0;
+    overflow: auto;
 }
 
 .links-container {
