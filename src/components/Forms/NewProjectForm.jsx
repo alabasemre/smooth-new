@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 
 import Input from '../Input/Input';
-
-import styles from './Forms.module.css';
 import Dropdown from '../Dropdown/Dropdown';
 import Smooth from '../Smooth/Smooth';
+
+import styles from './Forms.module.css';
 
 const teams = [
     { id: 1, name: 'Marvel' },

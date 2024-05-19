@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 
-import styles from './Project.module.css';
+// import styles from './Project.module.css';
 
 import NestedSidebar from '../../components/NestedSidebar/NestedSidebar';
 
@@ -8,6 +8,7 @@ const data = [
     { id: 'kanban', name: 'Pano' },
     { id: 'sprint', name: 'Sprint' },
     { id: 'settings', name: 'Ayarlar' },
+    { id: 'members', name: 'Üyeler' },
 ];
 
 function Project() {
@@ -19,6 +20,7 @@ function Project() {
                     <h1>Proje {params.projectId}</h1>
                 </div>
             </NestedSidebar>
+            <Outlet />
         </div>
     );
 }

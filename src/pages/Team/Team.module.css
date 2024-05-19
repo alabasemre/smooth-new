@@ -32,3 +32,81 @@
 .tab-content {
     padding: 10px;
 }
+
+/* -------- TAKIM ÜYELERİ TABLOSU CSS ---------------- */
+
+.team_members-container {
+    display: flex;
+    width: 100%;
+}
+
+.team_members-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.team_members-table th {
+    border: 1px solid black;
+    width: 20%;
+    text-align: left;
+    padding: 10px;
+}
+
+.team_members-table td {
+    border: 1px solid black;
+    text-align: left;
+    padding: 10px;
+}
+
+.team_members-table-actions {
+    padding: 10px;
+    margin-left: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--primary-color);
+}
+
+.team_members-table-actions:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* -------- PROJELER TABLOSU CSS (TEAMLE AYNI ŞUAN) ---------------- */
+
+.projects-container {
+    display: flex;
+    width: 100%;
+}
+
+.projects-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.projects-table th {
+    border: 1px solid black;
+    width: 20%;
+    text-align: left;
+    padding: 10px;
+}
+
+.projects-table td {
+    border: 1px solid black;
+    text-align: left;
+    padding: 10px;
+}
+
+.projects-table-actions {
+    padding: 10px;
+    margin-left: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--primary-color);
+}
+
+.projects-table-actions:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}

@@ -9,6 +9,10 @@ import Projects from './pages/Projects/Projects';
 import Teams from './pages/Teams/Teams';
 import Project from './pages/Project/Project';
 import Team from './pages/Team/Team';
+import Kanban from './pages/Project/Kanban';
+import Sprints from './pages/Project/Sprints';
+import Settings from './pages/Project/Settings';
+import Members from './pages/Project/Members';
 
 const router = createBrowserRouter([
     {
@@ -55,6 +59,24 @@ const router = createBrowserRouter([
                     {
                         path: 'project/:projectId',
                         element: <Project />,
+                        children: [
+                            {
+                                path: 'kanban',
+                                element: <Kanban />,
+                            },
+                            {
+                                path: 'sprint',
+                                element: <Sprints />,
+                            },
+                            {
+                                path: 'settings',
+                                element: <Settings />,
+                            },
+                            {
+                                path: 'members',
+                                element: <Members />,
+                            },
+                        ],
                     },
                 ],
             },

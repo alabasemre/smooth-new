@@ -1,10 +1,11 @@
 import { Outlet, useParams } from 'react-router-dom';
-import styles from './Teams.module.css';
-import NestedSidebar from '../../components/NestedSidebar/NestedSidebar';
-import Modal from '../../components/Modal/Modal';
-import NewProjectForm from '../../components/Forms/NewProjectForm';
 import { useState } from 'react';
 
+import NestedSidebar from '../../components/NestedSidebar/NestedSidebar';
+import Modal from '../../components/Modal/Modal';
+import NewTeamForm from '../../components/Forms/NewTeamForm';
+
+import styles from './Teams.module.css';
 const teams = [
     {
         id: 1,
@@ -52,9 +53,7 @@ function Teams() {
                 </div>
                 {isModalOpen && (
                     <Modal setIsOpen={modalToggle} isOpen={isModalOpen}>
-                        <NewProjectForm
-                            toggleModal={modalToggle}
-                        ></NewProjectForm>
+                        <NewTeamForm toggleModal={modalToggle}></NewTeamForm>
                     </Modal>
                 )}
             </NestedSidebar>

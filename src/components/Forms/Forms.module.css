@@ -49,3 +49,37 @@
     font-weight: 600;
     cursor: pointer;
 }
+
+.add_team_member-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add_team_member-input-group [type='email'] {
+    flex: 1;
+    height: 40px;
+    padding: 6px;
+    font-size: 16px;
+}
+
+.add_team_member-form {
+    margin-top: 30px;
+}
+
+.add_team_member-input-group div {
+    display: flex;
+    gap: 20px;
+}
+
+.add_team_member-btn {
+    width: 200px;
+    height: 40px;
+    padding: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--white);
+    cursor: pointer;
+}
