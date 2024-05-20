@@ -6,7 +6,7 @@ import KanbanColumn from './KanbanColumn';
 
 function KanbanBoard({ data }) {
     const [tasks, setTasks] = useState(data);
-    const [columns, setColumn] = useState(data.column);
+    // const [columns, setColumn] = useState(data.column);
 
     function onDragEnd(result) {
         const { destination, source, draggableId } = result;

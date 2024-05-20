@@ -66,3 +66,81 @@
     height: 40px;
     cursor: pointer;
 }
+
+/**  ------------ SPRINTS SAYFASI -------------------- **/
+
+.section {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.sprints_header {
+    font-weight: 400;
+}
+
+.sprints_content-container {
+    padding-top: 50px;
+}
+
+.sprints_add-btn {
+    background-color: var(--button-bg);
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Inter, sans-serif;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.sprints_tasks-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    margin-top: 24px;
+    width: 80%;
+}
+
+.sprints_sprint-title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.sprints_sprint-task-item {
+    font-weight: 500;
+}
+
+.sprints_add-task-btn {
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+    background-color: var(--button-bg);
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.add_sprints-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.sprints_sprint-action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.sprints_sprint-action-buttons button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 6px 12px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+}

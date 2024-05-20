@@ -215,3 +215,99 @@
     border: none;
     cursor: pointer;
 }
+
+/* ------------------ADD SPRINT FORM ---------------------- */
+
+.add_sprint-container {
+    width: 800px;
+}
+
+.add_sprint-header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.add_sprint-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add_sprint-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 15px;
+}
+
+.add_sprint-label {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.add_sprint-input-group [type='text'] {
+    height: 36px;
+    font-size: 16px;
+    font-family: Inter, sans-serif;
+    padding: 8px;
+}
+
+.add_sprint-input-group textarea {
+    height: 300px;
+    resize: none;
+    padding: 10px;
+    font-family: Inter, sans-serif;
+}
+
+.add_sprint-btn {
+    align-self: flex-end;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    font-weight: 600;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+/*------------------DATE PICKER-----------------------*/
+
+.date_picker-container {
+    width: 440px;
+}
+
+.date_picker-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.date_picker-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.date_picker-input-group label {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.date_picker-input-group [type='date'] {
+    width: 300px;
+    font-size: 20px;
+    border: none;
+    border-bottom: 1px solid var(--black);
+    outline: none;
+    user-select: none;
+    font-weight: 600;
+}
+
+.date_picker-btn {
+    align-self: flex-end;
+    background-color: var(--button-bg);
+    color: var(--black);
+    padding: 8px 16px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}

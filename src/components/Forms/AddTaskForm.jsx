@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { FaArrowDown, FaMinus } from 'react-icons/fa6';
 import userImg from '../../assets/user.png';
@@ -7,7 +8,7 @@ import { IoCloseOutline } from 'react-icons/io5';
 const users = [
     { id: 1, name: 'Emre', surname: 'Alabaş', imgUrl: '' },
     { id: 2, name: 'Oğuz', surname: 'Doğan', imgUrl: '' },
-    { id: 3, name: 'Ahsen', surname: 'Ahsen', imgUrl: '' },
+    { id: 3, name: 'Ahsen', surname: 'Bilgili', imgUrl: '' },
 ];
 
 function AddTaskForm({ sprintId, projectId, closeModal }) {
@@ -18,6 +19,9 @@ function AddTaskForm({ sprintId, projectId, closeModal }) {
         const newAssignees = assignees.filter((user) => user.id != id);
         setAssignees(newAssignees);
     };
+
+    // console.log('SPRINT: ', sprintId);
+    // console.log('Project: ', projectId);
 
     return (
         <div className={styles['add_task-container']}>
