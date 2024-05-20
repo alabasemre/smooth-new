@@ -13,6 +13,7 @@ import Kanban from './pages/Project/Kanban';
 import Sprints from './pages/Project/Sprints';
 import Settings from './pages/Project/Settings';
 import Members from './pages/Project/Members';
+import TaskDetail from './components/TaskDetail/TaskDetail';
 
 const router = createBrowserRouter([
     {
@@ -63,9 +64,15 @@ const router = createBrowserRouter([
                             {
                                 path: 'kanban',
                                 element: <Kanban />,
+                                children: [
+                                    {
+                                        path: ':taskId',
+                                        element: <TaskDetail />,
+                                    },
+                                ],
                             },
                             {
-                                path: 'sprint',
+                                path: 'sprints',
                                 element: <Sprints />,
                             },
                             {

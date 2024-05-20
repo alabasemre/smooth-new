@@ -6,7 +6,7 @@ import NestedSidebar from '../../components/NestedSidebar/NestedSidebar';
 
 const data = [
     { id: 'kanban', name: 'Pano' },
-    { id: 'sprint', name: 'Sprint' },
+    { id: 'sprints', name: 'Sprint' },
     { id: 'settings', name: 'Ayarlar' },
     { id: 'members', name: 'Üyeler' },
 ];

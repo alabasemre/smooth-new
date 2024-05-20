@@ -83,3 +83,135 @@
     color: var(--white);
     cursor: pointer;
 }
+
+/** --------------- ADD TASK FORM ----------------- **/
+
+.add_task-container {
+    width: 800px;
+    min-height: 750px;
+}
+
+.add_task-container form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.add_task-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 15px;
+}
+
+.add_task-label {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.add_task-input-group [type='text'] {
+    height: 36px;
+    font-size: 16px;
+    font-family: Inter, sans-serif;
+    padding: 8px;
+}
+
+.add_task-input-group textarea {
+    height: 300px;
+    resize: none;
+}
+
+.add_task-assignees-container {
+}
+
+.add_task-assignees-dropdown {
+    position: relative;
+    background-color: var(--secondary-bg);
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    user-select: none;
+    display: flex;
+    gap: 10px;
+}
+
+.add_task-assignees-empty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.add_task-assignee-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--button-bg);
+    padding: 5px 10px;
+    border: 4px;
+}
+
+.add_task-assignee-badge svg {
+    padding: 3px;
+}
+
+.add_task-assignee-badge svg:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.add_task-assignees-dropdown-container {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: var(--white);
+    width: 100%;
+    max-height: 150px;
+    overflow: auto;
+}
+
+.add_task-assignees-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+
+    background-color: var(--secondary-bg);
+    border-bottom: 1px solid var(--button-bg);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.add_task-assignees-dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.add_task-assignees-dropdown-item img {
+    height: 26px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
+
+.add_task-story-point {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.add_task-story-point [type='number'] {
+    padding: 8px;
+    width: 50px;
+}
+
+.add_task-btn {
+    padding: 10px;
+    justify-self: flex-end;
+    align-self: flex-end;
+    background-color: var(--button-bg);
+    width: 200px;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}

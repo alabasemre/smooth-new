@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Draggable } from 'react-beautiful-dnd';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import userImg from '../../assets/user.png';
 
 import styles from './KanbanBoard.module.css';
@@ -10,7 +10,7 @@ function KanbanTask({ task, index }) {
     let navigate = useNavigate();
 
     const taskClickHandler = () => {
-        navigate(`/pano/${task.id}`);
+        navigate(`?taskId=${task.id}`);
     };
 
     return (

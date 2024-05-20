@@ -1,60 +1,12 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import styles from './KanbanBoard.module.css';
 import { DragDropContext } from 'react-beautiful-dnd';
 import KanbanColumn from './KanbanColumn';
 
-const initialData = {
-    tasks: {
-        'task-1': {
-            id: 'task-1',
-            title: 'Take out the garbage',
-            content: 'lorem ipsum dolor',
-        },
-        'task-2': {
-            id: 'task-2',
-            title: 'Watch my favorite show',
-            content: 'lorem ipsum dolor',
-        },
-        'task-3': {
-            id: 'task-3',
-            title: 'Charge my phone',
-            content: 'lorem ipsum dolor',
-        },
-        'task-4': {
-            id: 'task-4',
-            title: 'Cook dinner',
-            content: 'lorem ipsum dolor',
-        },
-    },
-    columns: {
-        'column-1': {
-            id: 'column-1',
-            title: 'Planlandı',
-            taskIds: ['task-1', 'task-2', 'task-3'],
-        },
-        'column-2': {
-            id: 'column-2',
-            title: 'Devam Eden İşler',
-            taskIds: ['task-4'],
-        },
-        'column-3': {
-            id: 'column-3',
-            title: 'Tamamlandı',
-            taskIds: [],
-        },
-        'column-4': {
-            id: 'column-4',
-            title: 'Kapandı',
-            taskIds: [],
-        },
-    },
-    // Facilitate reordering of the columns
-    columnOrder: ['column-1', 'column-2', 'column-3', 'column-4'],
-};
-
-function KanbanBoard() {
-    const [tasks, setTasks] = useState(initialData);
-    const [columns, setColumn] = useState(initialData.column);
+function KanbanBoard({ data }) {
+    const [tasks, setTasks] = useState(data);
+    const [columns, setColumn] = useState(data.column);
 
     function onDragEnd(result) {
         const { destination, source, draggableId } = result;
