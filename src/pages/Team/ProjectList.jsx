@@ -1,5 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styles from './Team.module.css';
+import { useSelector } from 'react-redux';
+import { useGetTeamProjectsQuery } from '../../store/apis/teamApi';
 
 const projects = [
     {
@@ -19,6 +21,13 @@ const projects = [
 ];
 
 function ProjectList() {
+    const params = useParams();
+    const { userInfo } = useSelector((s) => s.user);
+    const { data, isFetching, error } = useGetTeamProjectsQuery({
+        teamId: params.teamId,
+        token: userInfo.token,
+    });
+
     return (
         <div className={styles['projects-container']}>
             <table className={styles['projects-table']}>
@@ -32,25 +41,28 @@ function ProjectList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {projects.map((project) => (
-                        <tr key={project.id}>
-                            <td>{project.name}</td>
-                            <td>{project.startDate}</td>
-                            <td>{project.endDate || 'Devam Ediyor'}</td>
-                            <td>{project.memberCount}</td>
-                            <td>
-                                <Link to={`/dashboard/project/${project.id}`}>
-                                    <button
-                                        className={
-                                            styles['projects-table-actions']
-                                        }
+                    {!isFetching &&
+                        data?.map((project) => (
+                            <tr key={project.id}>
+                                <td>{project.name}</td>
+                                <td>startDate</td>
+                                <td>{project.endDate || 'Devam Ediyor'}</td>
+                                <td>0</td>
+                                <td>
+                                    <Link
+                                        to={`/dashboard/project/${project.id}`}
                                     >
-                                        Proje Sayfasını Görüntüle
-                                    </button>
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
+                                        <button
+                                            className={
+                                                styles['projects-table-actions']
+                                            }
+                                        >
+                                            Proje Sayfasını Görüntüle
+                                        </button>
+                                    </Link>
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
         </div>

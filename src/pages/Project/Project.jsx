@@ -3,8 +3,10 @@ import { Outlet, useParams } from 'react-router-dom';
 // import styles from './Project.module.css';
 
 import NestedSidebar from '../../components/NestedSidebar/NestedSidebar';
+import { useGetProjectUserRoleQuery } from '../../store/apis/projectApi';
+import { useSelector } from 'react-redux';
 
-const data = [
+const menuData = [
     { id: 'kanban', name: 'Pano' },
     { id: 'sprints', name: 'Sprint' },
     { id: 'settings', name: 'Ayarlar' },
@@ -13,14 +15,20 @@ const data = [
 
 function Project() {
     const params = useParams();
+    const { userInfo } = useSelector((s) => s.user);
+    const { data, isFetching, error } = useGetProjectUserRoleQuery({
+        projectId: params.projectId,
+        token: userInfo.token,
+    });
+
     return (
         <div className='nested-outer-container'>
-            <NestedSidebar data={data}>
+            <NestedSidebar data={menuData}>
                 <div className='nested-page-header'>
-                    <h1>Proje {params.projectId}</h1>
+                    <h1>{isFetching || data.projectName}</h1>
                 </div>
             </NestedSidebar>
-            <Outlet />
+            {isFetching || <Outlet context={{ userRole: data.role }} />}
         </div>
     );
 }

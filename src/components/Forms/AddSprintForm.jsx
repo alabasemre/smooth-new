@@ -3,9 +3,48 @@ import Smooth from '../Smooth/Smooth';
 import { IoCloseOutline } from 'react-icons/io5';
 import { MdDeleteOutline } from 'react-icons/md';
 import styles from './Forms.module.css';
+import { useSelector } from 'react-redux';
+import { useCreateSprintMutation } from '../../store/apis/projectApi';
+import { useState } from 'react';
 
 function AddSprintForm({ closeModal, projectId, sprintId }) {
-    // TODO: Sprint id varsa güncelleme yapılacak yoksa ekleme ikisi de bu form üzerinde
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [date, setDate] = useState('');
+
+    const { userInfo } = useSelector((s) => s.user);
+    const [createSprint, results] = useCreateSprintMutation();
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if (title.trim().length === 0) {
+            console.log('Title is required');
+            return;
+        }
+
+        if (date === '') {
+            console.log('Date is required');
+            return;
+        }
+        const today = new Date().getTime();
+        const dueDate = new Date(date);
+        if (dueDate.getTime() < today) {
+            console.log('Check your due date');
+            return;
+        }
+
+        createSprint({
+            body: {
+                projectId,
+                name: title,
+                description,
+                endDate: dueDate.toLocaleString().split(' ')[0],
+            },
+            token: userInfo.token,
+        }).then(() => {
+            closeModal();
+        });
+    };
 
     return (
         <div className={styles['add_sprint-container']}>
@@ -26,7 +65,7 @@ function AddSprintForm({ closeModal, projectId, sprintId }) {
                 </div>
             </div>
 
-            <form className={styles['add_sprint-form']}>
+            <form className={styles['add_sprint-form']} onSubmit={onSubmit}>
                 <div className={styles['add_sprint-input-group']}>
                     <label
                         className={styles['add_sprint-label']}
@@ -34,7 +73,13 @@ function AddSprintForm({ closeModal, projectId, sprintId }) {
                     >
                         Sprint Başlığı
                     </label>
-                    <input type='text' id='name' name='name' />
+                    <input
+                        type='text'
+                        id='name'
+                        name='name'
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
                 </div>
                 <div className={styles['add_sprint-input-group']}>
                     <label
@@ -43,12 +88,19 @@ function AddSprintForm({ closeModal, projectId, sprintId }) {
                     >
                         Açıklama
                     </label>
-                    <textarea />
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
                 </div>
 
                 <div className={styles['date_picker-input-group']}>
                     <label htmlFor='datePicker'>Bitiş Tarihi:</label>
-                    <input type='date' id='datePicker' />
+                    <input
+                        type='date'
+                        id='datePicker'
+                        onChange={(e) => setDate(e.target.valueAsDate)}
+                    />
                 </div>
 
                 <button className={styles['add_sprint-btn']}>

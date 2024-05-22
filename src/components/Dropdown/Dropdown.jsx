@@ -46,13 +46,12 @@ function Dropdown({
                 {isOpen ? (
                     <div className={styles['toggle-selected']}>
                         {renderSelectedItems()}
-                        <FaArrowDown size={14} />
+                        <FaArrowUp size={14} />
                     </div>
                 ) : (
                     <div className={styles['toggle-selected']}>
                         {renderSelectedItems()}
-
-                        <FaArrowUp size={14} />
+                        <FaArrowDown size={14} />
                     </div>
                 )}
             </div>

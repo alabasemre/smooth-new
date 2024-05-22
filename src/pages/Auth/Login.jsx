@@ -5,6 +5,9 @@ import styles from './Auth.module.css';
 import loginImg from '../../assets/login.png';
 import { useState } from 'react';
 import Input from '../../components/Input/Input';
+import { useLoginMutation } from '../../store/apis/authApi';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/slices/userSlice';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -15,23 +18,30 @@ function Login() {
         errorMessage: '',
     });
 
-    const onSubmit = (e) => {
+    const dispatch = useDispatch();
+    const [loginMutation, { isLoading }] = useLoginMutation();
+
+    const onSubmit = async (e) => {
         e.preventDefault();
-
+        setLoginError({
+            hasError: false,
+            errorMessage: '',
+        });
         // TODO: Add validation
-
-        const userData = {
-            email,
-            password,
-        };
-        console.log(userData);
-
         if (email.length === 0) {
             setLoginError({
                 hasError: true,
                 errorMessage: 'E-Posta Adresinizi Girin',
             });
         }
+
+        try {
+            const res = await loginMutation({ email, password }).unwrap();
+            dispatch(login({ ...res }));
+        } catch (error) {
+            console.log(error);
+        }
+
         // TODO: Login with credentials
     };
 

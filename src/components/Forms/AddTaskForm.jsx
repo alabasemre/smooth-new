@@ -5,6 +5,11 @@ import userImg from '../../assets/user.png';
 import styles from './Forms.module.css';
 import Smooth from '../Smooth/Smooth';
 import { IoCloseOutline } from 'react-icons/io5';
+import {
+    useAddTaskMutation,
+    useGetProjectUsersQuery,
+} from '../../store/apis/projectApi';
+import { useSelector } from 'react-redux';
 const users = [
     { id: 1, name: 'Emre', surname: 'Alabaş', imgUrl: '' },
     { id: 2, name: 'Oğuz', surname: 'Doğan', imgUrl: '' },
@@ -12,6 +17,9 @@ const users = [
 ];
 
 function AddTaskForm({ sprintId, projectId, closeModal }) {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [storyPoint, setStoryPoint] = useState(0);
     const [assignees, setAssignees] = useState([]);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -20,8 +28,34 @@ function AddTaskForm({ sprintId, projectId, closeModal }) {
         setAssignees(newAssignees);
     };
 
-    // console.log('SPRINT: ', sprintId);
-    // console.log('Project: ', projectId);
+    const { userInfo } = useSelector((s) => s.user);
+    const { data, isFetching } = useGetProjectUsersQuery({
+        projectId: projectId,
+        token: userInfo.token,
+    });
+
+    const [addTask, results] = useAddTaskMutation();
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if (title.trim() === '') {
+            console.log('Title is required');
+            return;
+        }
+
+        addTask({
+            body: {
+                title,
+                description,
+                sprintId,
+                assignees: assignees.map((user) => user.id),
+                storyPoint,
+            },
+            token: userInfo.token,
+        }).then(() => {
+            closeModal();
+        });
+    };
 
     return (
         <div className={styles['add_task-container']}>
@@ -33,12 +67,18 @@ function AddTaskForm({ sprintId, projectId, closeModal }) {
                     <IoCloseOutline size={20} onClick={closeModal} />
                 </span>
             </div>
-            <form>
+            <form onSubmit={onSubmit}>
                 <div className={styles['add_task-input-group']}>
                     <label className={styles['add_task-label']} htmlFor='title'>
                         Görev Başlığı
                     </label>
-                    <input type='text' name='title' id='title' />
+                    <input
+                        type='text'
+                        name='title'
+                        id='title'
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
                 </div>
                 <div className={styles['add_task-input-group']}>
                     <label
@@ -47,7 +87,12 @@ function AddTaskForm({ sprintId, projectId, closeModal }) {
                     >
                         Görev Tanımı
                     </label>
-                    <textarea name='description' id='description' />
+                    <textarea
+                        name='description'
+                        id='description'
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
                 </div>
 
                 <div className={styles['add_task-assignees-container']}>
@@ -89,36 +134,37 @@ function AddTaskForm({ sprintId, projectId, closeModal }) {
                                     ]
                                 }
                             >
-                                {users
-                                    .filter(
-                                        (user) =>
-                                            !assignees
-                                                .map((user) => user.id)
-                                                .includes(user.id)
-                                    )
-                                    .map((user) => {
-                                        return (
-                                            <div
-                                                className={
-                                                    styles[
-                                                        'add_task-assignees-dropdown-item'
-                                                    ]
-                                                }
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    setAssignees((s) => [
-                                                        ...s,
-                                                        user,
-                                                    ]);
-                                                }}
-                                                key={user.id}
-                                            >
-                                                <img src={userImg} alt='' />
-                                                {user.name} {user.surname}
-                                            </div>
-                                        );
-                                    })}
+                                {isFetching ||
+                                    data
+                                        .filter(
+                                            (user) =>
+                                                !assignees
+                                                    .map((user) => user.id)
+                                                    .includes(user.id)
+                                        )
+                                        .map((user) => {
+                                            return (
+                                                <div
+                                                    className={
+                                                        styles[
+                                                            'add_task-assignees-dropdown-item'
+                                                        ]
+                                                    }
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        setAssignees((s) => [
+                                                            ...s,
+                                                            user,
+                                                        ]);
+                                                    }}
+                                                    key={user.id}
+                                                >
+                                                    <img src={userImg} alt='' />
+                                                    {user.name} {user.surname}
+                                                </div>
+                                            );
+                                        })}
                             </div>
                         )}
                     </div>
@@ -131,7 +177,14 @@ function AddTaskForm({ sprintId, projectId, closeModal }) {
                     >
                         Story Puanı:
                     </label>
-                    <input type='number' name='story-point' id='story-point' />
+                    <input
+                        type='number'
+                        name='story-point'
+                        id='story-point'
+                        value={storyPoint}
+                        min={0}
+                        onChange={(e) => setStoryPoint(e.target.value)}
+                    />
                 </div>
 
                 <button className={styles['add_task-btn']}>Ekle</button>

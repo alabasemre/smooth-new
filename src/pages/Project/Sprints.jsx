@@ -1,64 +1,42 @@
 import { LuPlusCircle } from 'react-icons/lu';
-import styles from './Project.module.css';
 import { useState } from 'react';
 import Modal from '../../components/Modal/Modal';
 import AddTaskForm from '../../components/Forms/AddTaskForm';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import AddSprintForm from '../../components/Forms/AddSprintForm';
-import DatePickerForm from '../../components/Forms/DatePickerForm';
-
-const sprints = [
-    {
-        id: 1,
-        name: 'Sprint 1',
-        tasks: [
-            {
-                id: 1,
-                title: 'Haftalık Gösterim Modülünün Eklenmesi',
-            },
-            { id: 2, title: 'Telefon Modülünün Eklenmesi' },
-        ],
-        status: 'On progress',
-        startDate: '20-05-2024',
-        endDate: '30-05-2024',
-        createdDate: '20-05-2024',
-    },
-    {
-        id: 2,
-        name: 'Sprint 2',
-        tasks: [
-            {
-                id: 1,
-                title: 'Saat Güncelleme Probleminin Çözülmesi',
-            },
-        ],
-        status: 'Done',
-        startDate: '20-04-2024',
-        endDate: '30-04-2024',
-        createdDate: '20-04-2024',
-    },
-    {
-        id: 3,
-        name: 'Sprint 3',
-        tasks: [
-            {
-                id: 2,
-                title: 'Do something',
-            },
-        ],
-        status: 'Planned',
-        startDate: '',
-        endDate: '',
-        createdDate: '20-04-2024',
-    },
-];
+import { useSelector } from 'react-redux';
+import { useGetSprintsQuery } from '../../store/apis/projectApi';
+import { FaRegEdit } from 'react-icons/fa';
+import { MdDelete } from 'react-icons/md';
+import styles from './Project.module.css';
+import TaskDetail from '../../components/TaskDetail/TaskDetail';
 
 function Sprints() {
     const [showAddTaskModal, setShowAddTaskModal] = useState(false);
     const [showAddSprintModal, setShowAddSprintModal] = useState(false);
+    const [showTaskDetailModal, setShowTaskDetailModal] = useState(false);
 
+    const [taskId, setTaskId] = useState();
     const [sprintId, setSprintId] = useState();
+
+    const user = useOutletContext();
+    const isAdmin =
+        user.userRole === 'admin' ||
+        user.userRole === 'owner' ||
+        user.userRole === 'manager';
+
     const projectId = useParams().projectId;
+
+    const { userInfo } = useSelector((s) => s.user);
+    const { data, isFetching, error } = useGetSprintsQuery({
+        projectId,
+        token: userInfo.token,
+    });
+
+    const handleTaskDetailModal = (taskId) => {
+        setTaskId(taskId);
+        setShowTaskDetailModal(true);
+    };
 
     const taskModalHandler = (sprintId) => {
         setSprintId(sprintId);
@@ -96,80 +74,119 @@ function Sprints() {
                     />
                 </Modal>
             )}
+            {showTaskDetailModal && (
+                <Modal
+                    isOpen={showTaskDetailModal}
+                    setIsOpen={() => setShowTaskDetailModal(false)}
+                >
+                    <TaskDetail
+                        taskId={taskId}
+                        closeModal={() => setShowTaskDetailModal(false)}
+                    />
+                </Modal>
+            )}
             <h1 className={styles['sprints_header']}>Sprintler</h1>
             <div className={styles['sprints_content-container']}>
-                <button
-                    className={styles['sprints_add-btn']}
-                    onClick={() => setShowAddSprintModal(true)}
-                >
-                    Sprint Ekle
-                </button>
-                {sprints.map((sprint) => (
-                    <div
-                        className={styles['sprints_tasks-container']}
-                        key={sprint.id}
+                {isAdmin && (
+                    <button
+                        className={styles['sprints_add-btn']}
+                        onClick={() => setShowAddSprintModal(true)}
                     >
-                        <div className={styles['add_sprints-actions']}>
-                            <h1 className={styles['sprints_sprint-title']}>
-                                {sprint.name} ({sprint.status})
-                            </h1>
-                            <div
-                                className={
-                                    styles['sprints_sprint-action-buttons']
-                                }
-                            >
-                                {sprint.status !== 'Done' ? (
-                                    <button
-                                        onClick={() => {
-                                            editSprintModalHandler(sprint.id);
-                                        }}
-                                    >
-                                        Sprinti Düzenle
-                                    </button>
-                                ) : (
-                                    <></>
-                                )}
+                        Sprint Ekle
+                    </button>
+                )}
 
-                                {sprint.status === 'Planned' ? (
-                                    <button
-                                        onClick={() => {
-                                            // TODO: Start Sprint
-                                        }}
+                {isFetching ||
+                    data.map((sprint) => (
+                        <div
+                            className={styles['sprints_tasks-container']}
+                            key={sprint.id}
+                        >
+                            <div className={styles['add_sprints-actions']}>
+                                <h1 className={styles['sprints_sprint-title']}>
+                                    {sprint.name} ({sprint.status})
+                                </h1>
+                                {isAdmin && (
+                                    <div
+                                        className={
+                                            styles[
+                                                'sprints_sprint-action-buttons'
+                                            ]
+                                        }
                                     >
-                                        Sprinti Başlat
-                                    </button>
-                                ) : (
-                                    <></>
+                                        {sprint.status !== 'Done' ? (
+                                            <button
+                                                onClick={() => {
+                                                    editSprintModalHandler(
+                                                        sprint.id
+                                                    );
+                                                }}
+                                            >
+                                                Sprinti Düzenle
+                                            </button>
+                                        ) : (
+                                            <></>
+                                        )}
+
+                                        {sprint.status === 'Planned' ? (
+                                            <button
+                                                onClick={() => {
+                                                    // TODO: Start Sprint
+                                                }}
+                                            >
+                                                Sprinti Başlat
+                                            </button>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
                                 )}
                             </div>
-                        </div>
 
-                        <ul className={styles['sprints_sprint-task-list']}>
-                            {sprint.tasks.map((task) => (
-                                <li
-                                    key={task.id}
-                                    className={
-                                        styles['sprints_sprint-task-item']
-                                    }
+                            <ul className={styles['sprints_sprint-task-list']}>
+                                {sprint.tasks.map((task) => (
+                                    <li
+                                        key={task.id}
+                                        className={
+                                            styles['sprints_sprint-task-item']
+                                        }
+                                    >
+                                        <span> {task.title}</span>{' '}
+                                        <div
+                                            className={
+                                                styles[
+                                                    'sprints_sprint-task-actions'
+                                                ]
+                                            }
+                                        >
+                                            <FaRegEdit
+                                                size={24}
+                                                onClick={() => {
+                                                    console.log('first');
+                                                    handleTaskDetailModal(
+                                                        task.id
+                                                    );
+                                                }}
+                                            />
+                                            <MdDelete size={24} />
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                            {sprint.status !== 'Done' ? (
+                                <button
+                                    className={styles['sprints_add-task-btn']}
+                                    onClick={() => {
+                                        taskModalHandler(sprint.id);
+                                    }}
                                 >
-                                    {task.title}
-                                </li>
-                            ))}
-                        </ul>
-                        {sprint.status !== 'Done' ? (
-                            <button
-                                className={styles['sprints_add-task-btn']}
-                                onClick={() => {
-                                    taskModalHandler(sprint.id);
-                                }}
-                            >
-                                <LuPlusCircle size={24} />
-                            </button>
-                        ) : (
-                            <></>
-                        )}
-                    </div>
-                ))}
+                                    <LuPlusCircle size={24} />
+                                </button>
+                            ) : (
+                                <></>
+                            )}
+                        </div>
+                    ))}
             </div>
         </section>
     );

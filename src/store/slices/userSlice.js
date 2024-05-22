@@ -1,25 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const defaultState = {
-    isLoggedIn: true,
-    email: '',
-    role: '',
-    id: '',
-    token: '',
+    isLoggedIn: localStorage.getItem('userInfo') ? true : false,
+    userInfo: localStorage.getItem('userInfo')
+        ? JSON.parse(localStorage.getItem('userInfo'))
+        : null,
 };
 
 const userSlice = createSlice({
     name: 'user',
     initialState: defaultState,
     reducers: {
-        login(state, action) {
-            (state.isLoggedIn = true), (state.email = action.payload.email);
-            (state.role = action.payload.role),
-                (state.id = action.payload.id),
-                (state.token = action.payload.token);
+        login: (state, action) => {
+            state.isLoggedIn = true;
+            state.userInfo = action.payload;
+            localStorage.setItem('userInfo', JSON.stringify(action.payload));
         },
         logout(state, action) {
-            return defaultState;
+            state.userInfo = null;
+            state.isLoggedIn = false;
+            localStorage.removeItem('userInfo');
         },
     },
 });

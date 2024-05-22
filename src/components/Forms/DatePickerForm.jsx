@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { IoCloseOutline } from 'react-icons/io5';
 import Smooth from '../Smooth/Smooth';
 import styles from './Forms.module.css';

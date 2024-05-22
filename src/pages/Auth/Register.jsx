@@ -1,8 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
 import styles from './Auth.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Input from '../../components/Input/Input';
+import { useRegisterMutation } from '../../store/apis/authApi';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/slices/userSlice';
 
 const defaultState = {
     email: { hasError: false, errorMessage: '' },
@@ -20,8 +24,10 @@ function Register() {
         password: { hasError: false, errorMessage: '' },
         checkPassword: { hasError: false, errorMessage: '' },
     });
+    const dispatch = useDispatch();
+    const [register, { isLoading }] = useRegisterMutation();
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         setFormState(defaultState);
 
@@ -49,13 +55,12 @@ function Register() {
             });
         }
 
-        const userData = {
-            email,
-            password,
-            checkPassword,
-        };
-
-        console.log(userData);
+        try {
+            const res = await register({ email, password }).unwrap();
+            dispatch(login({ ...res }));
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (

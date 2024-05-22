@@ -1,11 +1,25 @@
 import { useState } from 'react';
 import styles from './Forms.module.css';
+import { useAddUserToTeamMutation } from '../../store/apis/teamApi';
 
-function AddTeamMemberForm() {
+function AddTeamMemberForm({ teamId, token }) {
     const [userMail, setUserMail] = useState('');
+    const [addUserToTeam, results] = useAddUserToTeamMutation();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (userMail.trim().length === 0) {
+            console.log('Email is empty');
+            return;
+        }
+
+        await addUserToTeam({
+            body: { email: userMail, teamId },
+            token: token,
+        }).then(() => {
+            setUserMail('');
+        });
     };
 
     return (

@@ -6,6 +6,11 @@ import Dropdown from '../Dropdown/Dropdown';
 import Smooth from '../Smooth/Smooth';
 
 import styles from './Forms.module.css';
+import { useSelector } from 'react-redux';
+import {
+    useCreateProjectMutation,
+    useGetAdminProjectsQuery,
+} from '../../store/apis/projectApi';
 
 const teams = [
     { id: 1, name: 'Marvel' },
@@ -14,8 +19,16 @@ const teams = [
 
 function NewProjectForm({ toggleModal }) {
     const [projectName, setProjectName] = useState('');
+    const [projectDescription, setProjectDescription] = useState('');
     const [teamForProject, setTeamForProject] = useState(null);
     const [isTeamDropdownOpen, setTeamDropdownOpen] = useState();
+
+    const { userInfo } = useSelector((s) => s.user);
+    const { data, isFetching, error } = useGetAdminProjectsQuery({
+        token: userInfo.token,
+    });
+
+    const [createProject, results] = useCreateProjectMutation();
 
     const selectTeamHandler = (selectedTeam) => {
         setTeamForProject(selectedTeam);
@@ -24,6 +37,31 @@ function NewProjectForm({ toggleModal }) {
 
     const removeTeamHandler = (selectedTeam) => {
         setTeamForProject(null);
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        if (teamForProject === null) {
+            console.log('Team is empty');
+            return;
+        }
+
+        if (projectName.trim().length === 0) {
+            console.log('Teamname is empty');
+            return;
+        }
+
+        createProject({
+            body: {
+                name: projectName,
+                description: projectDescription,
+                teamId: teamForProject.id,
+            },
+            token: userInfo.token,
+        }).then(() => {
+            toggleModal(false);
+        });
     };
 
     return (
@@ -37,7 +75,7 @@ function NewProjectForm({ toggleModal }) {
                 </span>
             </div>
 
-            <form className={styles['form']}>
+            <form className={styles['form']} onSubmit={onSubmit}>
                 <Input
                     id='projectName'
                     name='projectName'
@@ -50,21 +88,27 @@ function NewProjectForm({ toggleModal }) {
                 <span>Bu Proje Hangi Takıma Ait</span>
 
                 <div className={styles['dropdown-container']}>
-                    <Dropdown
-                        title='Takım Seçin'
-                        data={teams}
-                        toggle={setTeamDropdownOpen}
-                        isOpen={isTeamDropdownOpen}
-                        selectFn={selectTeamHandler}
-                        selectedItems={teamForProject ? [teamForProject] : null}
-                        onDeleteFn={removeTeamHandler}
-                    />
+                    {isFetching || (
+                        <Dropdown
+                            title='Takım Seçin'
+                            data={data}
+                            toggle={setTeamDropdownOpen}
+                            isOpen={isTeamDropdownOpen}
+                            selectFn={selectTeamHandler}
+                            selectedItems={
+                                teamForProject ? [teamForProject] : null
+                            }
+                            onDeleteFn={removeTeamHandler}
+                        />
+                    )}
                 </div>
 
                 <label htmlFor='description'>Projenin Tanımı</label>
                 <textarea
                     name='description'
                     id='description'
+                    value={projectDescription}
+                    onChange={(e) => setProjectDescription(e.target.value)}
                     className={styles['project-description']}
                 ></textarea>
 

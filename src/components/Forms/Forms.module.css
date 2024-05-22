@@ -311,3 +311,67 @@
     cursor: pointer;
     margin-top: 10px;
 }
+
+/*------------ ADD PROJECT MEMBER -------------*/
+
+.add_project_member-form {
+    margin-bottom: 20px;
+}
+
+.add_project_member-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.add_project_member-search [type='text'] {
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid var(--black);
+    width: 400px;
+    padding: 8px;
+    outline: none;
+}
+
+.add_project_member-search button {
+    height: 30px;
+    border: none;
+    background-color: var(--button-bg);
+    padding: 8px 30px;
+    outline: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.add_project_member-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--button-bg);
+    gap: 10px;
+    width: 700px;
+    padding: 10px;
+}
+
+.add_project_member-item div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add_project_member-item img {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+}
+
+.add_project_member-item button {
+    font-weight: 500;
+    padding: 8px 16px;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--white);
+    cursor: pointer;
+}

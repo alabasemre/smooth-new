@@ -7,9 +7,30 @@ import Input from '../Input/Input';
 import Smooth from '../Smooth/Smooth';
 
 import styles from './Forms.module.css';
+import { useCreateTeamMutation } from '../../store/apis/teamApi';
+import { useSelector } from 'react-redux';
 
 function NewTeamForm({ toggleModal }) {
     const [teamName, setTeamName] = useState('');
+    const [teamDescription, setTeamDescription] = useState('');
+    const [createTeam, results] = useCreateTeamMutation();
+    const { userInfo } = useSelector((s) => s.user);
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if (teamName.trim() === '') {
+            console.log('Error takım adı boş');
+            return;
+        }
+
+        createTeam({
+            body: { name: teamName, description: teamDescription },
+            token: userInfo.token,
+        }).then(() => {
+            toggleModal();
+        });
+    };
+
     return (
         <div className={styles['form-container']}>
             <div className={styles['header']}>
@@ -21,7 +42,7 @@ function NewTeamForm({ toggleModal }) {
                 </span>
             </div>
 
-            <form className={styles['form']}>
+            <form className={styles['form']} onSubmit={onSubmit}>
                 <Input
                     id='teamName'
                     name='teamName'
@@ -35,10 +56,17 @@ function NewTeamForm({ toggleModal }) {
                 <textarea
                     name='description'
                     id='description'
+                    value={teamDescription}
+                    onChange={(e) => setTeamDescription(e.target.value)}
                     className={styles['project-description']}
                 ></textarea>
 
-                <button className={styles['btn-add']}>Takımı Oluştur</button>
+                <button
+                    className={styles['btn-add']}
+                    disabled={results.isLoading}
+                >
+                    Takımı Oluştur
+                </button>
             </form>
         </div>
     );
