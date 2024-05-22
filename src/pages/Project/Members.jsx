@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import AddProjectMemberForm from '../../components/Forms/AddProjectMemberForm';
 import styles from './Project.module.css';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useGetProjectUsersQuery } from '../../store/apis/projectApi';
 
 const appUsers = [
     {
@@ -33,15 +36,31 @@ const appUsers = [
 function Members() {
     const [activeTab, setActiveTab] = useState('team-members');
     const params = useParams();
+
+    const { userInfo } = useSelector((s) => s.user);
+    const { data, isFetching } = useGetProjectUsersQuery({
+        projectId: params.projectId,
+        token: userInfo.token,
+    });
+
+    const context = useOutletContext();
+    const isAdmin =
+        context.userRole === 'admin' ||
+        context.userRole === 'owner' ||
+        context.userRole === 'manager';
+
     const changeTab = (tabName) => {
         setActiveTab(tabName);
     };
 
     const renderTabMenu = () => (
         <div className={styles['project_members-tab-menu-container']}>
-            <button onClick={() => changeTab('add-member')}>
-                Projeye Ekle
-            </button>
+            {isAdmin && (
+                <button onClick={() => changeTab('add-member')}>
+                    Projeye Ekle
+                </button>
+            )}
+
             <button onClick={() => changeTab('team-members')}>
                 Proje Arkadaşları
             </button>
@@ -53,7 +72,7 @@ function Members() {
             case 'add-member':
                 return <AddProjectMemberForm />;
             case 'team-members':
-                return <MembersTable />;
+                return <MembersTable data={data} isAdmin={isAdmin} />;
             default:
                 return activeTab;
         }
@@ -62,17 +81,17 @@ function Members() {
     return (
         <section className={styles['project_members-section-container']}>
             <div className={styles['project_members-tab-container']}>
-                <h1>Proje {params.projectId}</h1>
+                <h1>{context.projectName}</h1>
                 {renderTabMenu()}
             </div>
             <div className={styles['project_members-tab-content']}>
-                {renderTabContent()}
+                {isFetching || renderTabContent()}
             </div>
         </section>
     );
 }
 
-function MembersTable() {
+function MembersTable({ data, isAdmin }) {
     return (
         <div className={styles['project_members-container']}>
             <table className={styles['project_members-table']}>
@@ -87,21 +106,25 @@ function MembersTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    {appUsers.map((user) => (
+                    {data.map((user) => (
                         <tr key={user.id}>
                             <td>{user.name}</td>
                             <td>{user.surname}</td>
                             <td>{user.email}</td>
-                            <td>{user.title}</td>
+                            <td>{user.role}</td>
                             <td>{user.managerRole}</td>
                             <td>
-                                <button
-                                    className={
-                                        styles['project_members-table-actions']
-                                    }
-                                >
-                                    Projeden Çıkar
-                                </button>
+                                {isAdmin && (
+                                    <button
+                                        className={
+                                            styles[
+                                                'project_members-table-actions'
+                                            ]
+                                        }
+                                    >
+                                        Projeden Çıkar
+                                    </button>
+                                )}
                             </td>
                         </tr>
                     ))}

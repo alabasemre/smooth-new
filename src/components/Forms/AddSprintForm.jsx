@@ -4,16 +4,32 @@ import { IoCloseOutline } from 'react-icons/io5';
 import { MdDeleteOutline } from 'react-icons/md';
 import styles from './Forms.module.css';
 import { useSelector } from 'react-redux';
-import { useCreateSprintMutation } from '../../store/apis/projectApi';
-import { useState } from 'react';
+import {
+    useCreateSprintMutation,
+    useUpdateSprintMutation,
+} from '../../store/apis/projectApi';
+import { useEffect, useState } from 'react';
 
-function AddSprintForm({ closeModal, projectId, sprintId }) {
+function AddSprintForm({ closeModal, projectId, sprintId, sprintData }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
+    const [mode, setMode] = useState('insert');
+
+    useEffect(() => {
+        if (sprintId) {
+            setMode('update');
+            setTitle(sprintData.name);
+            setDescription(sprintData.description);
+
+            const d = sprintData.endDate.split('.');
+            setDate(`${d[2]}-${d[1]}-${d[0]}`);
+        }
+    }, []);
 
     const { userInfo } = useSelector((s) => s.user);
-    const [createSprint, results] = useCreateSprintMutation();
+    const [createSprint, resultAdd] = useCreateSprintMutation();
+    const [updateSprint, resultUpdate] = useUpdateSprintMutation();
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -33,17 +49,31 @@ function AddSprintForm({ closeModal, projectId, sprintId }) {
             return;
         }
 
-        createSprint({
-            body: {
-                projectId,
-                name: title,
-                description,
-                endDate: dueDate.toLocaleString().split(' ')[0],
-            },
-            token: userInfo.token,
-        }).then(() => {
-            closeModal();
-        });
+        if (mode === 'insert') {
+            createSprint({
+                body: {
+                    projectId,
+                    name: title,
+                    description,
+                    endDate: dueDate.toLocaleDateString(),
+                },
+                token: userInfo.token,
+            }).then(() => {
+                closeModal();
+            });
+        } else {
+            updateSprint({
+                body: {
+                    name: title,
+                    description,
+                    endDate: dueDate.toLocaleDateString(),
+                },
+                sprintId,
+                token: userInfo.token,
+            }).then(() => {
+                closeModal();
+            });
+        }
     };
 
     return (
@@ -99,7 +129,8 @@ function AddSprintForm({ closeModal, projectId, sprintId }) {
                     <input
                         type='date'
                         id='datePicker'
-                        onChange={(e) => setDate(e.target.valueAsDate)}
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
                     />
                 </div>
 

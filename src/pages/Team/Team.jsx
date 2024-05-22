@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './Team.module.css';
@@ -14,7 +15,7 @@ function Team() {
     const { userInfo } = useSelector((s) => s.user);
     const { teamId } = params;
 
-    const { data, isFetching, error } = useGetUserRoleQuery({
+    const { data, isFetching } = useGetUserRoleQuery({
         teamId: teamId,
         token: userInfo.token,
     });
@@ -26,11 +27,8 @@ function Team() {
         setActiveTab(tabName);
     };
 
-    console.log('te:', data);
-
     useEffect(() => {
         if (!isFetching && data.message) {
-            console.log('first');
             navigate('/dashboard/teams/');
         }
     }, [isFetching, navigate]);

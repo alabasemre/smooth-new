@@ -28,7 +28,14 @@ export const teamApiSlice = apiSlice.injectEndpoints({
         }),
         getProjectUsers: builder.query({
             query: (data) => ({
-                url: `api/project/${data.projectId}/getUserS`,
+                url: `api/project/${data.projectId}/getUsers`,
+                method: 'GET',
+                headers: { Authorization: `Bearer ${data.token}` },
+            }),
+        }),
+        getTeamUsersWithProjectId: builder.query({
+            query: (data) => ({
+                url: `api/team/${data.projectId}/getTeamUsers`,
                 method: 'GET',
                 headers: { Authorization: `Bearer ${data.token}` },
             }),
@@ -66,6 +73,30 @@ export const teamApiSlice = apiSlice.injectEndpoints({
                 return [{ type: 'Sprints', id: 'All' }];
             },
         }),
+        updateTask: builder.mutation({
+            query: (data) => ({
+                url: `api/sprint/${data.body.taskId}/updateTask`,
+                method: 'PUT',
+                body: data.body,
+                headers: { Authorization: `Bearer ${data.token}` },
+            }),
+            invalidatesTags: (result, error, data) => {
+                return [
+                    { type: 'Sprints', id: 'All' },
+                    { type: 'Task', id: data.body.taskId },
+                ];
+            },
+        }),
+        getTaskDetail: builder.query({
+            query: (data) => ({
+                url: `api/sprint/${data.taskId}/getTaskData`,
+                method: 'GET',
+                headers: { Authorization: `Bearer ${data.token}` },
+            }),
+            providesTags: (result, error, data) => {
+                return [{ type: 'Task', id: data.taskId }];
+            },
+        }),
         getSprints: builder.query({
             query: (data) => ({
                 url: `api/project/${data.projectId}/getSprints`,
@@ -74,6 +105,41 @@ export const teamApiSlice = apiSlice.injectEndpoints({
             }),
             providesTags: (result, error) => {
                 return [{ type: 'Sprints', id: 'All' }];
+            },
+        }),
+        updateSprint: builder.mutation({
+            query: (data) => ({
+                url: `api/sprint/${data.sprintId}`,
+                method: 'PUT',
+                body: data.body,
+                headers: { Authorization: `Bearer ${data.token}` },
+            }),
+            invalidatesTags: (result, error, data) => {
+                return [
+                    { type: 'Sprint', id: data.sprintId },
+                    { type: 'Sprints', id: 'All' },
+                ];
+            },
+        }),
+        startSprint: builder.mutation({
+            query: (data) => ({
+                url: `api/sprint/startSprint`,
+                method: 'PUT',
+                body: data.body,
+                headers: { Authorization: `Bearer ${data.token}` },
+            }),
+            invalidatesTags: (result, error, data) => {
+                return [{ type: 'Sprints', id: 'All' }];
+            },
+        }),
+        getSprintData: builder.query({
+            query: (data) => ({
+                url: `api/sprint/${data.sprintId}`,
+                method: 'GET',
+                headers: { Authorization: `Bearer ${data.token}` },
+            }),
+            providesTags: (result, error, data) => {
+                return [{ type: 'Sprint', id: data.sprintId }];
             },
         }),
     }),
@@ -85,7 +151,13 @@ export const {
     useGetProjectUserRoleQuery,
     useGetSprintsQuery,
     useGetProjectUsersQuery,
+    useGetTaskDetailQuery,
     useCreateProjectMutation,
     useCreateSprintMutation,
     useAddTaskMutation,
+    useGetTeamUsersWithProjectIdQuery,
+    useUpdateTaskMutation,
+    useGetSprintDataQuery,
+    useUpdateSprintMutation,
+    useStartSprintMutation,
 } = teamApiSlice;

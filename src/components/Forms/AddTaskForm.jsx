@@ -10,11 +10,6 @@ import {
     useGetProjectUsersQuery,
 } from '../../store/apis/projectApi';
 import { useSelector } from 'react-redux';
-const users = [
-    { id: 1, name: 'Emre', surname: 'Alabaş', imgUrl: '' },
-    { id: 2, name: 'Oğuz', surname: 'Doğan', imgUrl: '' },
-    { id: 3, name: 'Ahsen', surname: 'Bilgili', imgUrl: '' },
-];
 
 function AddTaskForm({ sprintId, projectId, closeModal }) {
     const [title, setTitle] = useState('');

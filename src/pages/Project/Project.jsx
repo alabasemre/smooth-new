@@ -28,7 +28,14 @@ function Project() {
                     <h1>{isFetching || data.projectName}</h1>
                 </div>
             </NestedSidebar>
-            {isFetching || <Outlet context={{ userRole: data.role }} />}
+            {isFetching || (
+                <Outlet
+                    context={{
+                        projectName: data.projectName,
+                        userRole: data.role,
+                    }}
+                />
+            )}
         </div>
     );
 }

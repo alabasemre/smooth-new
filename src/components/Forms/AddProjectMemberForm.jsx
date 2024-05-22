@@ -1,6 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import styles from './Forms.module.css';
 import userImg from '../../assets/user.png';
+import { useSelector } from 'react-redux';
+import { useGetTeamUsersWithProjectIdQuery } from '../../store/apis/projectApi';
+import { useParams } from 'react-router-dom';
 
 const appUsers = [
     {
@@ -32,10 +36,17 @@ const appUsers = [
 function AddProjectMemberForm() {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredTeamUsers, setFilteredTeamUsers] = useState([]);
+    const params = useParams();
+
+    const { userInfo } = useSelector((s) => s.user);
+    const { data, isFetching } = useGetTeamUsersWithProjectIdQuery({
+        projectId: params.projectId,
+        token: userInfo.token,
+    });
 
     const handleSearch = (e) => {
         e.preventDefault();
-        const teamUsers = appUsers.filter((user) =>
+        const teamUsers = data.filter((user) =>
             user.email.includes(searchTerm)
         );
 
@@ -60,7 +71,7 @@ function AddProjectMemberForm() {
                 </div>
             </form>
 
-            {filteredTeamUsers.length > 0 ? (
+            {isFetching || filteredTeamUsers.length > 0 ? (
                 <>
                     <h3 style={{ marginBottom: 10 }}>Sonuçlar</h3>
                     {filteredTeamUsers.map((user) => (

@@ -77,10 +77,21 @@
 .story-point {
     font-size: 14px;
     font-weight: 500;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    position: relative;
+    width: 200px;
 }
 
 .story-point span {
     font-weight: 700;
+}
+
+.story-point input {
+    width: 60px;
+    padding: 4px;
+    font-weight: 600;
 }
 
 .content-container {

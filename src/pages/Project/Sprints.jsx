@@ -5,7 +5,10 @@ import AddTaskForm from '../../components/Forms/AddTaskForm';
 import { useOutletContext, useParams } from 'react-router-dom';
 import AddSprintForm from '../../components/Forms/AddSprintForm';
 import { useSelector } from 'react-redux';
-import { useGetSprintsQuery } from '../../store/apis/projectApi';
+import {
+    useGetSprintsQuery,
+    useStartSprintMutation,
+} from '../../store/apis/projectApi';
 import { FaRegEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import styles from './Project.module.css';
@@ -18,6 +21,7 @@ function Sprints() {
 
     const [taskId, setTaskId] = useState();
     const [sprintId, setSprintId] = useState();
+    const [sprintData, setSprintData] = useState();
 
     const user = useOutletContext();
     const isAdmin =
@@ -33,6 +37,24 @@ function Sprints() {
         token: userInfo.token,
     });
 
+    const [startSprint, startResult] = useStartSprintMutation();
+
+    const startSprintHandler = (sprintData) => {
+        const today = new Date().getTime();
+        const d = sprintData.endDate.split('.');
+        const dueDate = new Date(`${d[2]}-${d[1]}-${d[0]}`);
+        if (dueDate.getTime() < today) {
+            console.log('Check your due date');
+            return;
+        }
+        console.log(sprintData);
+        console.log(userInfo);
+        startSprint({
+            body: { sprintId: sprintData.id },
+            token: userInfo.token,
+        });
+    };
+
     const handleTaskDetailModal = (taskId) => {
         setTaskId(taskId);
         setShowTaskDetailModal(true);
@@ -43,8 +65,9 @@ function Sprints() {
         setShowAddTaskModal(true);
     };
 
-    const editSprintModalHandler = (sprintId) => {
+    const editSprintModalHandler = (sprintId, sprint) => {
         setSprintId(sprintId);
+        setSprintData(sprint);
         setShowAddSprintModal(true);
     };
 
@@ -70,6 +93,7 @@ function Sprints() {
                     <AddSprintForm
                         projectId={projectId}
                         sprintId={sprintId}
+                        sprintData={sprintData}
                         closeModal={() => setShowAddSprintModal(false)}
                     />
                 </Modal>
@@ -118,7 +142,8 @@ function Sprints() {
                                             <button
                                                 onClick={() => {
                                                     editSprintModalHandler(
-                                                        sprint.id
+                                                        sprint.id,
+                                                        sprint
                                                     );
                                                 }}
                                             >
@@ -131,7 +156,7 @@ function Sprints() {
                                         {sprint.status === 'Planned' ? (
                                             <button
                                                 onClick={() => {
-                                                    // TODO: Start Sprint
+                                                    startSprintHandler(sprint);
                                                 }}
                                             >
                                                 Sprinti Başlat
@@ -162,7 +187,6 @@ function Sprints() {
                                             <FaRegEdit
                                                 size={24}
                                                 onClick={() => {
-                                                    console.log('first');
                                                     handleTaskDetailModal(
                                                         task.id
                                                     );
