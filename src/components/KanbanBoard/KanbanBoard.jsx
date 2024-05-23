@@ -3,10 +3,15 @@ import { useState } from 'react';
 import styles from './KanbanBoard.module.css';
 import { DragDropContext } from 'react-beautiful-dnd';
 import KanbanColumn from './KanbanColumn';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useUpdateTaskStatusMutation } from '../../store/apis/projectApi';
 
-function KanbanBoard({ data }) {
+function KanbanBoard({ data, openTaskDetail }) {
     const [tasks, setTasks] = useState(data);
-    // const [columns, setColumn] = useState(data.column);
+
+    const { userInfo } = useSelector((s) => s.user);
+    const [updateTaskStatus, result] = useUpdateTaskStatusMutation();
 
     function onDragEnd(result) {
         const { destination, source, draggableId } = result;
@@ -75,7 +80,18 @@ function KanbanBoard({ data }) {
         };
 
         setTasks(newData);
+        updateTaskStatus({
+            body: { taskId: draggableId, status: destination.droppableId },
+            token: userInfo.token,
+        });
+
+        console.log('Changed Task Id:', draggableId);
+        console.log('Destination:', destination.droppableId);
     }
+
+    useEffect(() => {
+        setTasks(data);
+    }, [data]);
 
     return (
         <>
@@ -94,6 +110,7 @@ function KanbanBoard({ data }) {
                                     column={column}
                                     tasks={taskList}
                                     colImgId={idx + 1}
+                                    openTaskDetail={openTaskDetail}
                                 />
                             );
                         })}

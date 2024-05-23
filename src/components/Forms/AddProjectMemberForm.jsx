@@ -5,6 +5,7 @@ import userImg from '../../assets/user.png';
 import { useSelector } from 'react-redux';
 import { useGetTeamUsersWithProjectIdQuery } from '../../store/apis/projectApi';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const appUsers = [
     {
@@ -44,13 +45,28 @@ function AddProjectMemberForm() {
         token: userInfo.token,
     });
 
+    const [addUserToProject, result] = addUserToProject();
+
     const handleSearch = (e) => {
         e.preventDefault();
-        const teamUsers = data.filter((user) =>
-            user.email.includes(searchTerm)
+        const teamUsers = data.filter(
+            (user) => user.email.includes(searchTerm) && user.id !== userInfo.id
         );
 
         setFilteredTeamUsers(teamUsers);
+    };
+
+    const addHandler = (userId) => {
+        addUserToProject({
+            body: { userId, projectId: params.projectId },
+            token: userInfo.token,
+        })
+            .then(() => {
+                toast.success('Kullanıcı Projeye Eklendi');
+            })
+            .catch(() => {
+                toast.error('Kullanıcı Projeye Eklenirken Bir Hata Oluştu');
+            });
     };
 
     return (
@@ -85,7 +101,13 @@ function AddProjectMemberForm() {
                                     {user.name} {user.surname}
                                 </p>
                             </div>
-                            <button>Ekle</button>
+                            <button
+                                onClick={() => {
+                                    addHandler(user.id);
+                                }}
+                            >
+                                Ekle
+                            </button>
                         </div>
                     ))}
                 </>

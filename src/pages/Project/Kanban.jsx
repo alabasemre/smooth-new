@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
@@ -9,6 +10,11 @@ import TaskDetail from '../../components/TaskDetail/TaskDetail';
 
 import styles from './Project.module.css';
 import AddTaskForm from '../../components/Forms/AddTaskForm';
+import {
+    useGetActiveSprintsQuery,
+    useLazyGetActiveSprintsTasksQuery,
+} from '../../store/apis/projectApi';
+import { useSelector } from 'react-redux';
 
 const activeSprints = [
     { id: 1, name: 'Sprint 1', startDate: '01-01-2019', endDate: '17-01-2019' },
@@ -44,8 +50,8 @@ const initialData = {
             title: 'Planlandı',
             taskIds: ['task-1', 'task-2', 'task-3'],
         },
-        'column-2': {
-            id: 'column-2',
+        'on progress': {
+            id: 'on progress',
             title: 'Devam Eden İşler',
             taskIds: ['task-4'],
         },
@@ -61,40 +67,108 @@ const initialData = {
         },
     },
     // Facilitate reordering of the columns
-    columnOrder: ['column-1', 'column-2', 'column-3', 'column-4'],
+    columnOrder: ['column-1', 'on progress', 'column-3', 'column-4'],
 };
 
 function Kanban() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [selectedSprint, setSelectedSprint] = useState(
-        activeSprints[activeSprints.length - 1]
-    );
+    const [selectedSprint, setSelectedSprint] = useState(null);
     const [showDetailModal, setDetailModal] = useState(false);
     const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+    const [kanbanTasks, setKanbanTasks] = useState(null);
+    const [taskId, setTaskId] = useState(null);
+    const { userInfo } = useSelector((s) => s.user);
+
+    const selectedSprintId = selectedSprint ? selectedSprint.id : null;
 
     let [searchParams, setSearchParams] = useSearchParams();
     const projectId = useParams().projectId;
-    const taskId = searchParams.get('taskId');
-    const navigate = useNavigate();
+
+    const { data: activeSprintsData, isFetching: isFetchingActiveSprints } =
+        useGetActiveSprintsQuery({
+            projectId,
+            token: userInfo.token,
+        });
+
+    const [
+        getActiveSprintsTasks,
+        { data: taskList, isFetching: isFetchingActiveTasks },
+    ] = useLazyGetActiveSprintsTasksQuery({
+        projectId,
+        token: userInfo.token,
+    });
+
+    const setTaskData = (data) => {
+        const tasks = {};
+        const columns = {
+            planned: {
+                id: 'planned',
+                title: 'Planlandı',
+                taskIds: [],
+            },
+            'on progress': {
+                id: 'on progress',
+                title: 'Devam Eden İşler',
+                taskIds: [],
+            },
+            done: {
+                id: 'done',
+                title: 'Tamamlandı',
+                taskIds: [],
+            },
+            closed: {
+                id: 'closed',
+                title: 'Kapandı',
+                taskIds: [],
+            },
+        };
+        const columnOrder = ['planned', 'on progress', 'done', 'closed'];
+        data.forEach((task) => {
+            tasks[task.id] = task;
+            columns[task.status.toLowerCase()].taskIds.push(task.id);
+        });
+        const kanbanData = { tasks, columns, columnOrder };
+        setKanbanTasks({ ...kanbanData });
+    };
+
+    useEffect(() => {
+        if (selectedSprint) {
+            getActiveSprintsTasks({
+                sprintId: selectedSprintId,
+                token: userInfo.token,
+            }).then((resp) => {
+                setTaskData(resp.data);
+            });
+        }
+    }, [selectedSprintId]);
 
     useEffect(() => {
         const sprintId = searchParams.get('sprintId');
         if (sprintId) {
-            setSelectedSprint(activeSprints[sprintId - 1]);
             setSearchParams('');
         }
     }, []);
 
-    useEffect(() => {
-        if (taskId) {
-            setDetailModal(true);
-        } else {
-            setDetailModal(false);
+    const openTaskDetail = (id) => {
+        setTaskId(id);
+        setDetailModal(true);
+    };
+
+    // const [trigger,setTrigger] = useState(false);
+    const triggerFetch = () => {
+        console.log('trigger comp');
+        if (selectedSprint) {
+            getActiveSprintsTasks({
+                sprintId: selectedSprintId,
+                token: userInfo.token,
+            }).then((resp) => {
+                setTaskData(resp.data);
+            });
         }
-    }, [taskId]);
+    };
 
     const closeTaskDetail = () => {
-        navigate('');
+        setDetailModal(false);
     };
 
     return (
@@ -107,77 +181,115 @@ function Kanban() {
                     <AddTaskForm
                         sprintId={selectedSprint.id}
                         projectId={projectId}
+                        triggerFetchRequest={triggerFetch}
                         closeModal={() => setShowAddTaskModal(false)}
+                    />
+                </Modal>
+            )}
+            {showDetailModal && (
+                <Modal isOpen={showDetailModal} setIsOpen={closeTaskDetail}>
+                    <TaskDetail
+                        taskId={taskId}
+                        closeModal={closeTaskDetail}
+                        sprintId={selectedSprintId}
+                        triggerFetchRequest={triggerFetch}
                     />
                 </Modal>
             )}
 
             <div className={styles['kanban_header-container']}>
                 <div className={styles['kanban_header']}>
-                    <h1>Pano / {selectedSprint.name}</h1>
-                    <button
-                        className={styles['kanban_btn']}
-                        onClick={() => setShowAddTaskModal(true)}
-                    >
-                        Görev Ekle <FaPlus />{' '}
-                    </button>
+                    <h1>
+                        Pano /{' '}
+                        {selectedSprint
+                            ? selectedSprint.name
+                            : 'Sprint Seçiniz'}
+                    </h1>
+                    {selectedSprint && (
+                        <button
+                            className={styles['kanban_btn']}
+                            onClick={() => setShowAddTaskModal(true)}
+                        >
+                            Görev Ekle <FaPlus />{' '}
+                        </button>
+                    )}
                 </div>
 
                 <div className={styles['kanban_select-sprints-container']}>
-                    <p className={styles['kanban_selected-sprint-date']}>
-                        Başlangıç Tarihi : {selectedSprint.startDate}
-                    </p>
-                    <p className={styles['kanban_selected-sprint-date']}>
-                        Bitiş Tarihi : {selectedSprint.endDate}
-                    </p>
+                    {selectedSprint && (
+                        <>
+                            <p
+                                className={
+                                    styles['kanban_selected-sprint-date']
+                                }
+                            >
+                                Başlangıç Tarihi : {selectedSprint.startDate}
+                            </p>
+                            <p
+                                className={
+                                    styles['kanban_selected-sprint-date']
+                                }
+                            >
+                                Bitiş Tarihi : {selectedSprint.endDate}
+                            </p>
+                        </>
+                    )}
+
                     <div
                         className={styles['kanban_selected-sprint-container']}
-                        onClick={() => setDropdownOpen((s) => !s)}
+                        onClick={(e) => setDropdownOpen((s) => !s)}
                     >
-                        {selectedSprint.name}
+                        {selectedSprint ? selectedSprint.name : 'Sprint Seçin'}
                         {dropdownOpen ? <FaArrowUp /> : <FaArrowDown />}
                         {dropdownOpen && (
                             <div
                                 className={styles['kanban_dropdown-container']}
                             >
-                                {activeSprints.map((sprint, idx) => {
-                                    if (sprint.name !== selectedSprint.name) {
-                                        return (
-                                            <div
-                                                className={
-                                                    styles[
-                                                        'kanban_dropdown-item'
-                                                    ]
-                                                }
-                                                key={sprint.id}
-                                                onClick={() => {
-                                                    setSelectedSprint(
-                                                        activeSprints[idx]
-                                                    );
-                                                }}
-                                            >
-                                                {sprint.name}{' '}
-                                            </div>
-                                        );
-                                    }
-                                })}
+                                {isFetchingActiveSprints ||
+                                    isFetchingActiveTasks ||
+                                    activeSprintsData.map((sprint, idx) => {
+                                        if (
+                                            selectedSprint === null ||
+                                            selectedSprint.id !== sprint.id
+                                        ) {
+                                            return (
+                                                <div
+                                                    className={
+                                                        styles[
+                                                            'kanban_dropdown-item'
+                                                        ]
+                                                    }
+                                                    key={sprint.id}
+                                                    onClick={() => {
+                                                        setSelectedSprint(
+                                                            sprint
+                                                        );
+                                                    }}
+                                                >
+                                                    {sprint.name}
+                                                </div>
+                                            );
+                                        }
+                                    })}
                             </div>
                         )}
                     </div>
-
-                    <button
-                        className={styles['kanban_btn']}
-                        onClick={() => setShowAddTaskModal(true)}
-                    >
-                        Sprinti Sonlandır
-                    </button>
+                    {selectedSprint && (
+                        <button
+                            className={styles['kanban_btn']}
+                            onClick={() => setShowAddTaskModal(true)}
+                        >
+                            Sprinti Sonlandır
+                        </button>
+                    )}
                 </div>
             </div>
-            <KanbanBoard data={initialData} />
-            {showDetailModal && (
-                <Modal isOpen={showDetailModal} setIsOpen={closeTaskDetail}>
-                    <TaskDetail taskId={taskId} closeModal={closeTaskDetail} />
-                </Modal>
+            {selectedSprint && (
+                <KanbanBoard
+                    data={kanbanTasks}
+                    openTaskDetail={openTaskDetail}
+                    sprintId={selectedSprintId}
+                />
             )}
         </section>
     );

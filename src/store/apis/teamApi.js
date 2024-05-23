@@ -10,7 +10,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
                 headers: { Authorization: `Bearer ${data.token}` },
             }),
             invalidatesTags: (result, error) => {
-                return [{ type: 'Teams', id: 'All' }];
+                return [{ type: 'Teams', id: 'AllMine' }];
             },
         }),
         addUserToTeam: builder.mutation({
@@ -20,6 +20,9 @@ export const teamApiSlice = apiSlice.injectEndpoints({
                 body: data.body,
                 headers: { Authorization: `Bearer ${data.token}` },
             }),
+            invalidatesTags: (result, error, data) => {
+                return [{ type: 'Teams', id: data.body.teamId }];
+            },
         }),
         getTeamsUsers: builder.query({
             query: (data) => ({
@@ -27,6 +30,9 @@ export const teamApiSlice = apiSlice.injectEndpoints({
                 method: 'GET',
                 headers: { Authorization: `Bearer ${data.token}` },
             }),
+            providesTags: (result, error, data) => {
+                return [{ type: 'Teams', id: data.teamId }];
+            },
         }),
         getUsersTeams: builder.query({
             query: (token) => ({
@@ -35,7 +41,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
                 headers: { Authorization: `Bearer ${token}` },
             }),
             providesTags: (result, error) => {
-                return [{ type: 'Teams', id: 'All' }];
+                return [{ type: 'Teams', id: 'AllMine' }];
             },
         }),
         getUserRole: builder.query({
@@ -54,6 +60,9 @@ export const teamApiSlice = apiSlice.injectEndpoints({
                 method: 'GET',
                 headers: { Authorization: `Bearer ${data.token}` },
             }),
+            providesTags: (result, error, data) => {
+                return [{ type: 'Projects', id: data.teamId }];
+            },
         }),
     }),
 });

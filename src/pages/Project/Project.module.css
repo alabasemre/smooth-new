@@ -44,7 +44,7 @@
     position: absolute;
     left: 0;
     width: 200px;
-    bottom: -45px;
+    top: 45px;
     color: var(--black);
 }
 

@@ -11,6 +11,7 @@ import {
     useCreateProjectMutation,
     useGetAdminProjectsQuery,
 } from '../../store/apis/projectApi';
+import { toast } from 'react-toastify';
 
 const teams = [
     { id: 1, name: 'Marvel' },
@@ -59,9 +60,14 @@ function NewProjectForm({ toggleModal }) {
                 teamId: teamForProject.id,
             },
             token: userInfo.token,
-        }).then(() => {
-            toggleModal(false);
-        });
+        })
+            .then(() => {
+                toast.success('Proje Başarıyla Oluşturuldu');
+                toggleModal(false);
+            })
+            .catch(() => {
+                toast.error('Proje Oluşturulurken Bir Hata Oluştu.');
+            });
     };
 
     return (

@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { IoCloseOutline } from 'react-icons/io5';
 
 import Input from '../Input/Input';
-
 import Smooth from '../Smooth/Smooth';
 
 import styles from './Forms.module.css';
@@ -26,9 +26,14 @@ function NewTeamForm({ toggleModal }) {
         createTeam({
             body: { name: teamName, description: teamDescription },
             token: userInfo.token,
-        }).then(() => {
-            toggleModal();
-        });
+        })
+            .then(() => {
+                toast.success('Takım Başarıyla Oluşturuldu');
+                toggleModal();
+            })
+            .catch(() => {
+                toast.error('Takım Eklenirken Bir Hata Oluştu');
+            });
     };
 
     return (

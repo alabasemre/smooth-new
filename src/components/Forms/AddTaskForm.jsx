@@ -10,8 +10,9 @@ import {
     useGetProjectUsersQuery,
 } from '../../store/apis/projectApi';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
-function AddTaskForm({ sprintId, projectId, closeModal }) {
+function AddTaskForm({ sprintId, projectId, closeModal, triggerFetchRequest }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [storyPoint, setStoryPoint] = useState(0);
@@ -47,9 +48,18 @@ function AddTaskForm({ sprintId, projectId, closeModal }) {
                 storyPoint,
             },
             token: userInfo.token,
-        }).then(() => {
-            closeModal();
-        });
+        })
+            .then(() => {
+                toast.success('Görev Sprinte Eklendi');
+                if (triggerFetchRequest) {
+                    triggerFetchRequest();
+                }
+                closeModal();
+            })
+            .catch((err) => {
+                console.log(err);
+                toast.error('Görev Sprinte Eklenirken Bir Hata Oluştu');
+            });
     };
 
     return (

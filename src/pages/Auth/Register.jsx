@@ -9,17 +9,23 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../store/slices/userSlice';
 
 const defaultState = {
+    name: { hasError: false, errorMessage: '' },
+    surname: { hasError: false, errorMessage: '' },
     email: { hasError: false, errorMessage: '' },
     password: { hasError: false, errorMessage: '' },
     checkPassword: { hasError: false, errorMessage: '' },
 };
 
 function Register() {
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [checkPassword, setCheckPassword] = useState('');
 
     const [formState, setFormState] = useState({
+        name: { hasError: false, errorMessage: '' },
+        surname: { hasError: false, errorMessage: '' },
         email: { hasError: false, errorMessage: '' },
         password: { hasError: false, errorMessage: '' },
         checkPassword: { hasError: false, errorMessage: '' },
@@ -30,6 +36,29 @@ function Register() {
     const onSubmit = async (e) => {
         e.preventDefault();
         setFormState(defaultState);
+
+        if (name.trim().length == 0) {
+            setFormState((state) => {
+                return {
+                    ...state,
+                    name: {
+                        hasError: true,
+                        errorMessage: 'Lütfen adınızı girin',
+                    },
+                };
+            });
+        }
+        if (surname.trim().length == 0) {
+            setFormState((state) => {
+                return {
+                    ...state,
+                    surname: {
+                        hasError: true,
+                        errorMessage: 'Lütfen soyadınızı girin',
+                    },
+                };
+            });
+        }
 
         if (password.trim().length == 0) {
             setFormState((state) => {
@@ -56,7 +85,12 @@ function Register() {
         }
 
         try {
-            const res = await register({ email, password }).unwrap();
+            const res = await register({
+                name,
+                surname,
+                email,
+                password,
+            }).unwrap();
             dispatch(login({ ...res }));
         } catch (error) {
             console.log(error);
@@ -72,6 +106,26 @@ function Register() {
                         Hesap Oluşturun
                     </h3>
                     <form onSubmit={onSubmit} className={styles['auth-form']}>
+                        <Input
+                            value={name}
+                            onChange={setName}
+                            type='text'
+                            id='name'
+                            name='name'
+                            label='Adınız'
+                            hasError={formState?.name.hasError}
+                            errorMessage={formState.name.errorMessage}
+                        />
+                        <Input
+                            value={surname}
+                            onChange={setSurname}
+                            type='text'
+                            id='surname'
+                            name='surname'
+                            label='Soyadınız'
+                            hasError={formState?.surname.hasError}
+                            errorMessage={formState.surname.errorMessage}
+                        />
                         <Input
                             value={email}
                             onChange={setEmail}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './Forms.module.css';
 import { useAddUserToTeamMutation } from '../../store/apis/teamApi';
-
+import { toast } from 'react-toastify';
 function AddTeamMemberForm({ teamId, token }) {
     const [userMail, setUserMail] = useState('');
     const [addUserToTeam, results] = useAddUserToTeamMutation();
@@ -17,9 +17,14 @@ function AddTeamMemberForm({ teamId, token }) {
         await addUserToTeam({
             body: { email: userMail, teamId },
             token: token,
-        }).then(() => {
-            setUserMail('');
-        });
+        })
+            .then(() => {
+                toast.success('Kullanıcı Başarıyla Takıma Eklendi');
+                setUserMail('');
+            })
+            .catch(() => {
+                toast.success('Kullanıcı Takıma Eklenirken Bir Hata Oluştu.');
+            });
     };
 
     return (

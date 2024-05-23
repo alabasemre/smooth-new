@@ -9,6 +9,7 @@ import {
     useUpdateSprintMutation,
 } from '../../store/apis/projectApi';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 function AddSprintForm({ closeModal, projectId, sprintId, sprintData }) {
     const [title, setTitle] = useState('');
@@ -58,9 +59,14 @@ function AddSprintForm({ closeModal, projectId, sprintId, sprintData }) {
                     endDate: dueDate.toLocaleDateString(),
                 },
                 token: userInfo.token,
-            }).then(() => {
-                closeModal();
-            });
+            })
+                .then(() => {
+                    toast.success('Sprint Projeye Eklendi');
+                    closeModal();
+                })
+                .catch(() => {
+                    toast.error('Sprint Eklenirken Bir Hata Oluştu');
+                });
         } else {
             updateSprint({
                 body: {
@@ -70,9 +76,14 @@ function AddSprintForm({ closeModal, projectId, sprintId, sprintData }) {
                 },
                 sprintId,
                 token: userInfo.token,
-            }).then(() => {
-                closeModal();
-            });
+            })
+                .then(() => {
+                    toast.success('Sprint Güncellendi');
+                    closeModal();
+                })
+                .catch(() => {
+                    toast.error('Sprint Güncellenirken Bir Hata Oluştu');
+                });
         }
     };
 

@@ -47,16 +47,16 @@ function Sprints() {
             console.log('Check your due date');
             return;
         }
-        console.log(sprintData);
-        console.log(userInfo);
+
         startSprint({
             body: { sprintId: sprintData.id },
             token: userInfo.token,
         });
     };
 
-    const handleTaskDetailModal = (taskId) => {
+    const handleTaskDetailModal = (taskId, sprintId) => {
         setTaskId(taskId);
+        setSprintId(sprintId);
         setShowTaskDetailModal(true);
     };
 
@@ -105,6 +105,7 @@ function Sprints() {
                 >
                     <TaskDetail
                         taskId={taskId}
+                        sprintId={sprintId}
                         closeModal={() => setShowTaskDetailModal(false)}
                     />
                 </Modal>
@@ -188,7 +189,8 @@ function Sprints() {
                                                 size={24}
                                                 onClick={() => {
                                                     handleTaskDetailModal(
-                                                        task.id
+                                                        task.id,
+                                                        sprint.id
                                                     );
                                                 }}
                                             />

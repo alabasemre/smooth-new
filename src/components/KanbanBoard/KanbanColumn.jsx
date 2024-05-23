@@ -16,7 +16,7 @@ const columnImg = {
     4: closed,
 };
 
-function KanbanColumn({ column, tasks, colImgId }) {
+function KanbanColumn({ column, tasks, colImgId, openTaskDetail }) {
     return (
         <div className={styles['column-container']}>
             <div className={styles['column-header']}>
@@ -41,6 +41,7 @@ function KanbanColumn({ column, tasks, colImgId }) {
                                     key={task.id}
                                     task={task}
                                     index={index}
+                                    openTaskDetail={openTaskDetail}
                                 />
                             );
                         })}

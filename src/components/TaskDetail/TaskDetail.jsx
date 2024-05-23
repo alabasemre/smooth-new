@@ -15,8 +15,9 @@ import {
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-function TaskDetail({ taskId, closeModal }) {
+function TaskDetail({ taskId, closeModal, sprintId, triggerFetchRequest }) {
     const projectId = useParams().projectId;
     const { userInfo } = useSelector((s) => s.user);
 
@@ -51,7 +52,20 @@ function TaskDetail({ taskId, closeModal }) {
     const [status, setStatus] = useState('');
 
     const updateTaskHandler = (newData) => {
-        updateTask({ body: { ...newData, taskId }, token: userInfo.token });
+        updateTask({
+            body: { ...newData, taskId },
+            sprintId,
+            token: userInfo.token,
+        })
+            .then(() => {
+                if (triggerFetchRequest) {
+                    triggerFetchRequest();
+                }
+                toast.success('Görev Güncellendi');
+            })
+            .catch((error) => {
+                toast.error('Görev Güncellenirken Bir Hata Oluştu');
+            });
     };
 
     const handleAssigneeUpdate = (assignee, updateType) => {

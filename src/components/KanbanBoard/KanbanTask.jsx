@@ -5,14 +5,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import userImg from '../../assets/user.png';
 
 import styles from './KanbanBoard.module.css';
-function KanbanTask({ task, index }) {
+function KanbanTask({ task, index, openTaskDetail }) {
     const classes = `${styles['task-container']}`;
-    let navigate = useNavigate();
 
     const taskClickHandler = () => {
-        navigate(`?taskId=${task.id}`);
+        openTaskDetail(task.id);
     };
-
+    // TODO: FETCH USER IMAGES WITH TASK ID
     return (
         <Draggable draggableId={task.id.toString()} index={index} key={task.id}>
             {(provided, snapshot) => (
@@ -26,7 +25,7 @@ function KanbanTask({ task, index }) {
                     onClick={taskClickHandler}
                 >
                     <h3 className={styles['task-title']}>{task.title}</h3>
-                    <p className={styles['task-content']}> {task.content}</p>
+                    <p className={styles['task-content']}>{task.description}</p>
 
                     <div className={styles['task-badges']}>
                         <div>
