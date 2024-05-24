@@ -3,36 +3,12 @@ import { useState } from 'react';
 import styles from './Forms.module.css';
 import userImg from '../../assets/user.png';
 import { useSelector } from 'react-redux';
-import { useGetTeamUsersWithProjectIdQuery } from '../../store/apis/projectApi';
+import {
+    useAddUserToProjectMutation,
+    useGetTeamUsersWithProjectIdQuery,
+} from '../../store/apis/projectApi';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
-const appUsers = [
-    {
-        id: 1,
-        name: 'Emre',
-        surname: 'Alabaş',
-        email: 'emre@mail.com',
-        title: 'Front End Developer',
-        managerRole: 'Geliştirici',
-    },
-    {
-        id: 2,
-        name: 'Ahsen',
-        surname: 'Bilgili',
-        email: 'ahsen@mail.com',
-        title: 'Back End Developer',
-        managerRole: 'Yönetici',
-    },
-    {
-        id: 3,
-        name: 'Oğuz',
-        surname: 'Doğan',
-        email: 'oguz@mail.com',
-        title: 'Back End Developer',
-        managerRole: 'Geliştirici',
-    },
-];
 
 function AddProjectMemberForm() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -45,7 +21,7 @@ function AddProjectMemberForm() {
         token: userInfo.token,
     });
 
-    const [addUserToProject, result] = addUserToProject();
+    const [addUserToProject, result] = useAddUserToProjectMutation();
 
     const handleSearch = (e) => {
         e.preventDefault();

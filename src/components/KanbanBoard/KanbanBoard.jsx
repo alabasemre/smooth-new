@@ -85,8 +85,8 @@ function KanbanBoard({ data, openTaskDetail }) {
             token: userInfo.token,
         });
 
-        console.log('Changed Task Id:', draggableId);
-        console.log('Destination:', destination.droppableId);
+        // console.log('Changed Task Id:', draggableId);
+        // console.log('Destination:', destination.droppableId);
     }
 
     useEffect(() => {

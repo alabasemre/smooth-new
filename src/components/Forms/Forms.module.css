@@ -375,3 +375,70 @@
     color: var(--white);
     cursor: pointer;
 }
+
+/*---------- EDIT TEAM USER FORM ------------*/
+.edit_team_user {
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit_team_user-container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin: 10px 0 30px;
+}
+
+.edit_team_user-container span {
+    font-weight: 500;
+}
+
+.edit_team_user-container p {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    justify-content: space-between;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 4px 10px;
+    cursor: pointer;
+}
+
+.edit_team_user-dropdown-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.edit_team_user-dropdown {
+    position: absolute;
+    top: 40px;
+    box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
+    user-select: none;
+    width: 100%;
+    /* left: 200px; */
+}
+
+.edit_team_user-dropdown-item {
+    background-color: var(--white);
+    padding: 4px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--button-bg);
+}
+
+.edit_team_user-dropdown-item:hover {
+    background-color: var(--button-bg);
+}
+
+.edit_team_user-btn {
+    padding: 6px;
+    background-color: var(--button-bg);
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    margin-top: 10px;
+}

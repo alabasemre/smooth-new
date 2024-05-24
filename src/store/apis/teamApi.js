@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { apiSlice } from './apiSlice';
 
 export const teamApiSlice = apiSlice.injectEndpoints({

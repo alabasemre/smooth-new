@@ -27,7 +27,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
                 headers: { Authorization: `Bearer ${data.token}` },
             }),
         }),
-        addUserToProject: builder.query({
+        addUserToProject: builder.mutation({
             query: (data) => ({
                 url: `api/project/addUser`,
                 method: 'POST',
@@ -213,4 +213,5 @@ export const {
     useGetActiveSprintsQuery,
     useLazyGetActiveSprintsTasksQuery,
     useUpdateTaskStatusMutation,
+    useAddUserToProjectMutation,
 } = teamApiSlice;

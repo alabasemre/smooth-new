@@ -6,33 +6,6 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useGetProjectUsersQuery } from '../../store/apis/projectApi';
 
-const appUsers = [
-    {
-        id: 1,
-        name: 'Emre',
-        surname: 'Alabaş',
-        email: 'emre@mail.com',
-        title: 'Front End Developer',
-        managerRole: 'Geliştirici',
-    },
-    {
-        id: 2,
-        name: 'Ahsen',
-        surname: 'Bilgili',
-        email: 'ahsen@mail.com',
-        title: 'Back End Developer',
-        managerRole: 'Yönetici',
-    },
-    {
-        id: 3,
-        name: 'Oğuz',
-        surname: 'Doğan',
-        email: 'oguz@mail.com',
-        title: 'Back End Developer',
-        managerRole: 'Geliştirici',
-    },
-];
-
 function Members() {
     const [activeTab, setActiveTab] = useState('team-members');
     const params = useParams();
@@ -81,7 +54,7 @@ function Members() {
     return (
         <section className={styles['project_members-section-container']}>
             <div className={styles['project_members-tab-container']}>
-                <h1>{context.projectName}</h1>
+                <h1>{context.project.name}</h1>
                 {renderTabMenu()}
             </div>
             <div className={styles['project_members-tab-content']}>

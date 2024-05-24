@@ -32,12 +32,18 @@ const appUsers = [
 
 function TeamMembers({ isAdmin }) {
     const [isEditOpen, setIsEditOpen] = useState(false);
+    const [user, setUser] = useState(null);
     const params = useParams();
     const { userInfo } = useSelector((s) => s.user);
     const { data, isFetching, error } = useGetTeamsUsersQuery({
         teamId: params.teamId,
         token: userInfo.token,
     });
+
+    const handleOpenModal = (user) => {
+        setUser(user);
+        setIsEditOpen(true);
+    };
 
     const handleModal = () => {
         setIsEditOpen(false);
@@ -47,7 +53,11 @@ function TeamMembers({ isAdmin }) {
         <div className={styles['team_members-container']}>
             {isEditOpen && (
                 <Modal isOpen={isEditOpen} setIsOpen={handleModal}>
-                    <EditTeamUserForm />
+                    <EditTeamUserForm
+                        user={user}
+                        teamId={params.teamId}
+                        closeModal={handleModal}
+                    />
                 </Modal>
             )}
             <table className={styles['team_members-table']}>
@@ -76,7 +86,9 @@ function TeamMembers({ isAdmin }) {
                                                     'team_members-table-actions'
                                                 ]
                                             }
-                                            onClick={() => setIsEditOpen(true)}
+                                            onClick={() => {
+                                                handleOpenModal(user);
+                                            }}
                                         >
                                             Düzenle
                                         </button>

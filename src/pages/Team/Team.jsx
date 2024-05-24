@@ -62,7 +62,7 @@ function Team() {
             case 'projects':
                 return <ProjectList />;
             case 'settings':
-                return <TeamSettings />;
+                return <TeamSettings data={data?.teamData} role={data?.role} />;
             default:
                 return activeTab;
         }
@@ -73,7 +73,7 @@ function Team() {
             {isFetching || (
                 <>
                     <div className={styles['tab-container']}>
-                        <h1>{data?.teamName}</h1>
+                        <h1>{data?.teamData?.name}</h1>
                         {renderTabMenu()}
                     </div>
                     <div className={styles['tab-content']}>

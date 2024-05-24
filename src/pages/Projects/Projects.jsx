@@ -5,25 +5,7 @@ import NestedSidebar from '../../components/NestedSidebar/NestedSidebar';
 
 import styles from './Projects.module.css';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { useGetUsersProjectsQuery } from '../../store/apis/projectApi';
-
-const mock = [
-    {
-        id: '1',
-        name: 'Project Alpha',
-        startDate: '01-01-2015',
-        endDate: '',
-        memberCount: 35,
-    },
-    {
-        id: '2',
-        name: 'Project Zeta',
-        startDate: '01-01-2015',
-        endDate: '01-01-2019',
-        memberCount: 0,
-    },
-];
 
 function Projects() {
     const [isModalOpen, setModalOpen] = useState(false);

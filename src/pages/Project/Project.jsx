@@ -25,13 +25,13 @@ function Project() {
         <div className='nested-outer-container'>
             <NestedSidebar data={menuData}>
                 <div className='nested-page-header'>
-                    <h1>{isFetching || data.projectName}</h1>
+                    <h1>{isFetching || data?.project.name}</h1>
                 </div>
             </NestedSidebar>
             {isFetching || (
                 <Outlet
                     context={{
-                        projectName: data.projectName,
+                        project: data.project,
                         userRole: data.role,
                     }}
                 />

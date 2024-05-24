@@ -75,11 +75,12 @@
 }
 
 .sprints_header {
-    font-weight: 400;
+    /* font-weight: 400; */
 }
 
 .sprints_content-container {
     padding-top: 50px;
+    margin-left: 50px;
 }
 
 .sprints_add-btn {
@@ -109,8 +110,10 @@
 }
 
 .sprints_sprint-task-list {
-    max-height: 300px;
-    overflow: auto;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 80%;
+    padding-bottom: 8px;
 }
 
 .sprints_sprint-task-item {
@@ -118,10 +121,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 80%;
-    background-color: rgba(0, 0, 0, 0.1);
-    padding: 6px;
-    border-bottom: 1px solid var(--button-bg);
+    width: 100%;
+    padding: 3px 10px;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
 .sprints_sprint-task-actions {
@@ -247,4 +249,59 @@
 
 .project_members-table-actions:hover {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* -------------PROJECT SETTINGS ----------------*/
+.project_settings {
+    margin: 0 auto;
+    width: min(800px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.project_settings-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.project_settings-input-group label {
+    font-weight: 600;
+}
+
+.project_settings-input-group [type='text'] {
+    font-weight: 600;
+    padding: 10px;
+}
+
+.project_settings-input-group textarea {
+    font-weight: 600;
+    padding: 10px;
+    font-size: 14px;
+    height: 200px;
+    resize: none;
+}
+
+.project_settings-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.project_settings-actions button {
+    padding: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.project_settings-actions-update {
+    background-color: var(--button-bg);
+}
+
+.project_settings-actions-delete {
+    background-color: var(--primary-color);
+    color: white;
 }
