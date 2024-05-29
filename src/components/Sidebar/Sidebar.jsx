@@ -18,7 +18,7 @@ function Sidebar() {
     const IconSize = open ? 20 : 24;
 
     const { userInfo } = useSelector((state) => state.user);
-
+    console.log('userInfo: ', userInfo);
     const dispatch = useDispatch();
 
     const logoutHandler = () => {

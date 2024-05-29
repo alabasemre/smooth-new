@@ -18,6 +18,13 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+const taskTranslation = {
+    planned: 'Planlandı',
+    'on progress': 'Devam Ediyor',
+    done: 'Tamamlandı',
+    closed: 'Kapandı',
+};
+
 function TaskDetail({ taskId, closeModal, sprintId, triggerFetchRequest }) {
     const projectId = useParams().projectId;
     const { userInfo } = useSelector((s) => s.user);
@@ -350,7 +357,11 @@ function TaskDetail({ taskId, closeModal, sprintId, triggerFetchRequest }) {
                                                             }}
                                                         >
                                                             <img
-                                                                src={userImg}
+                                                                src={
+                                                                    user.avatarUrl
+                                                                        ? user.avatarUrl
+                                                                        : userImg
+                                                                }
                                                                 alt=''
                                                             />
                                                             <p>
@@ -375,7 +386,11 @@ function TaskDetail({ taskId, closeModal, sprintId, triggerFetchRequest }) {
                                     >
                                         <img
                                             className={styles['user-img']}
-                                            src={userImg}
+                                            src={
+                                                user.avatarUrl
+                                                    ? user.avatarUrl
+                                                    : userImg
+                                            }
                                             alt=''
                                         />
                                         <p>
@@ -404,7 +419,11 @@ function TaskDetail({ taskId, closeModal, sprintId, triggerFetchRequest }) {
                             <div className={styles['user-container']}>
                                 <img
                                     className={styles['user-img']}
-                                    src={userImg}
+                                    src={
+                                        data.reporter.avatarUrl
+                                            ? data.reporter.avatarUrl
+                                            : userImg
+                                    }
                                     alt=''
                                 />
                                 <p>
@@ -413,7 +432,9 @@ function TaskDetail({ taskId, closeModal, sprintId, triggerFetchRequest }) {
                             </div>
 
                             <h3 className={styles['section-title']}>Durum</h3>
-                            <div className={styles['badge']}>{status}</div>
+                            <div className={styles['badge']}>
+                                {taskTranslation[status.toLowerCase()]}
+                            </div>
                         </div>
                     </div>
                 </div>

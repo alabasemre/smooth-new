@@ -29,12 +29,26 @@ function Members() {
     const renderTabMenu = () => (
         <div className={styles['project_members-tab-menu-container']}>
             {isAdmin && (
-                <button onClick={() => changeTab('add-member')}>
+                <button
+                    onClick={() => changeTab('add-member')}
+                    className={
+                        activeTab === 'add-member'
+                            ? styles['tab-menu-active']
+                            : ''
+                    }
+                >
                     Projeye Ekle
                 </button>
             )}
 
-            <button onClick={() => changeTab('team-members')}>
+            <button
+                onClick={() => changeTab('team-members')}
+                className={
+                    activeTab === 'team-members'
+                        ? styles['tab-menu-active']
+                        : ''
+                }
+            >
                 Proje Arkadaşları
             </button>
         </div>
@@ -73,8 +87,7 @@ function MembersTable({ data, isAdmin }) {
                         <th>Ad</th>
                         <th>Soyad</th>
                         <th>E-Posta</th>
-                        <th>Ünvan</th>
-                        <th>Yetki Derecesi</th>
+                        <th>Rol</th>
                         <th>Aksiyon</th>
                     </tr>
                 </thead>
@@ -85,7 +98,6 @@ function MembersTable({ data, isAdmin }) {
                             <td>{user.surname}</td>
                             <td>{user.email}</td>
                             <td>{user.role}</td>
-                            <td>{user.managerRole}</td>
                             <td>
                                 {isAdmin && (
                                     <button

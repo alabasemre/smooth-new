@@ -16,7 +16,7 @@ function AddSprintForm({ closeModal, projectId, sprintId, sprintData }) {
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
     const [mode, setMode] = useState('insert');
-
+    console.log('Title: ', title);
     useEffect(() => {
         if (sprintId) {
             setMode('update');

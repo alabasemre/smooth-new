@@ -29,6 +29,10 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+.tab-menu-active {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
 .tab-content {
     padding: 10px;
 }

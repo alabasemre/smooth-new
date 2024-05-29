@@ -166,7 +166,14 @@ function AddTaskForm({ sprintId, projectId, closeModal, triggerFetchRequest }) {
                                                     }}
                                                     key={user.id}
                                                 >
-                                                    <img src={userImg} alt='' />
+                                                    <img
+                                                        src={
+                                                            user.avatarUrl
+                                                                ? user.avatarUrl
+                                                                : userImg
+                                                        }
+                                                        alt=''
+                                                    />
                                                     {user.name} {user.surname}
                                                 </div>
                                             );

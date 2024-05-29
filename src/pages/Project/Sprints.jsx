@@ -14,6 +14,12 @@ import { MdDelete } from 'react-icons/md';
 import styles from './Project.module.css';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
 
+const sprintTranslation = {
+    planned: 'Planlandı',
+    'on progress': 'Devam Ediyor',
+    done: 'Tamamlandı',
+};
+
 function Sprints() {
     const [showAddTaskModal, setShowAddTaskModal] = useState(false);
     const [showAddSprintModal, setShowAddSprintModal] = useState(false);
@@ -71,6 +77,12 @@ function Sprints() {
         setShowAddSprintModal(true);
     };
 
+    const closeSprintModalHandler = () => {
+        setSprintId();
+        setSprintData();
+        setShowAddSprintModal(false);
+    };
+
     return (
         <section className={styles['section']}>
             {showAddTaskModal && (
@@ -88,13 +100,13 @@ function Sprints() {
             {showAddSprintModal && (
                 <Modal
                     isOpen={showAddSprintModal}
-                    setIsOpen={() => setShowAddSprintModal(false)}
+                    setIsOpen={() => closeSprintModalHandler()}
                 >
                     <AddSprintForm
                         projectId={projectId}
                         sprintId={sprintId}
                         sprintData={sprintData}
-                        closeModal={() => setShowAddSprintModal(false)}
+                        closeModal={() => closeSprintModalHandler()}
                     />
                 </Modal>
             )}
@@ -129,7 +141,13 @@ function Sprints() {
                         >
                             <div className={styles['add_sprints-actions']}>
                                 <h1 className={styles['sprints_sprint-title']}>
-                                    {sprint.name} ({sprint.status})
+                                    {sprint.name} (
+                                    {
+                                        sprintTranslation[
+                                            sprint.status.toLowerCase()
+                                        ]
+                                    }
+                                    )
                                 </h1>
                                 {isAdmin && (
                                     <div

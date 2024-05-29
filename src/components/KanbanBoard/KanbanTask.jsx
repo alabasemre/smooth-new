@@ -11,6 +11,7 @@ function KanbanTask({ task, index, openTaskDetail }) {
     const taskClickHandler = () => {
         openTaskDetail(task.id);
     };
+    console.log(task);
     // TODO: FETCH USER IMAGES WITH TASK ID
     return (
         <Draggable draggableId={task.id.toString()} index={index} key={task.id}>
@@ -30,7 +31,11 @@ function KanbanTask({ task, index, openTaskDetail }) {
                     <div className={styles['task-badges']}>
                         <div>
                             <img
-                                src={userImg}
+                                src={
+                                    task.assignee
+                                        ? task.assignee.avatarUrl
+                                        : userImg
+                                }
                                 className={styles['assignee-img']}
                                 alt=''
                             />

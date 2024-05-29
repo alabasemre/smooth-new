@@ -45,9 +45,9 @@ function ProjectList() {
                         data?.map((project) => (
                             <tr key={project.id}>
                                 <td>{project.name}</td>
-                                <td>startDate</td>
+                                <td>19-05-2024</td>
                                 <td>{project.endDate || 'Devam Ediyor'}</td>
-                                <td>0</td>
+                                <td>1</td>
                                 <td>
                                     <Link
                                         to={`/dashboard/project/${project.id}`}

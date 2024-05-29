@@ -36,17 +36,47 @@ function Team() {
     const renderTabMenu = () => (
         <div className={styles['tab-menu-container']}>
             {checkAdminRole && (
-                <button onClick={() => changeTab('add-member')}>
+                <button
+                    onClick={() => changeTab('add-member')}
+                    className={
+                        activeTab === 'add-member'
+                            ? styles['tab-menu-active']
+                            : ''
+                    }
+                >
                     Takıma Ekle
                 </button>
             )}
 
-            <button onClick={() => changeTab('team-members')}>
+            <button
+                onClick={() => changeTab('team-members')}
+                className={
+                    activeTab === 'team-members'
+                        ? styles['tab-menu-active']
+                        : ''
+                }
+            >
                 Takım Arkadaşları
             </button>
-            <button onClick={() => changeTab('projects')}>Projeler</button>
+            <button
+                onClick={() => changeTab('projects')}
+                className={
+                    activeTab === 'projects' ? styles['tab-menu-active'] : ''
+                }
+            >
+                Projeler
+            </button>
             {checkAdminRole && (
-                <button onClick={() => changeTab('settings')}>Ayarlar</button>
+                <button
+                    onClick={() => changeTab('settings')}
+                    className={
+                        activeTab === 'settings'
+                            ? styles['tab-menu-active']
+                            : ''
+                    }
+                >
+                    Ayarlar
+                </button>
             )}
         </div>
     );

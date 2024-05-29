@@ -210,6 +210,10 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+.tab-menu-active {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
 .project_members-tab-content {
     padding: 10px;
 }
@@ -226,7 +230,7 @@
 
 .project_members-table th {
     border: 1px solid black;
-    width: 16.66%;
+    width: 20%;
     text-align: left;
     padding: 10px;
 }
