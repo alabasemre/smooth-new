@@ -91,7 +91,8 @@ function AddSprintForm({ closeModal, projectId, sprintId, sprintData }) {
         <div className={styles['add_sprint-container']}>
             <div className={styles['header']}>
                 <div>
-                    <Smooth /> Bir Sprint Ekleyin
+                    <Smooth /> Bir Sprint
+                    {mode === 'insert' ? ' Ekleyin' : ' Güncelleyin'}
                 </div>
                 <div className={styles['add_sprint-header-actions']}>
                     {sprintId && (
